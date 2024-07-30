@@ -15,10 +15,6 @@ export const genderOptions = [
 
 export const statusOptions = [
   {
-    value: "",
-    label: "- Chọn -",
-  },
-  {
     value: "true",
     label: "Đang hoạt động",
   },

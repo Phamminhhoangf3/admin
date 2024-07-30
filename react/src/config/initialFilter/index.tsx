@@ -71,7 +71,7 @@ export const initialFilters: InitialFiltersType<IFValueType> = {
       />
     ),
   }),
-  status: ({ name = "status", label = "Trạng thái", defaultValue = "" }) => ({
+  status: ({ name = "status", label = "Trạng thái", defaultValue = null }) => ({
     key: name,
     name: name,
     col: 6,
@@ -84,6 +84,8 @@ export const initialFilters: InitialFiltersType<IFValueType> = {
         form={form}
         options={statusOptions}
         label={label}
+        allowClear
+        placeholder="Chọn trạng thái"
       />
     ),
   }),

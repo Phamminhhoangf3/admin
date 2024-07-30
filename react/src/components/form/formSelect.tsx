@@ -1,6 +1,22 @@
 import { Select, Typography } from "antd";
+import { SelectProps } from "antd/lib";
 
-const FormSelect = ({ _name, form, defaultValue, options, label }) => {
+interface FormSelectType extends SelectProps {
+  _name: string;
+  form: any;
+  defaultValue: any;
+  options: any;
+  label: string;
+}
+
+const FormSelect = ({
+  _name,
+  form,
+  defaultValue,
+  options,
+  label,
+  ...rest
+}: FormSelectType) => {
   const getChangeHandlerWithEvent = (name) => (value) =>
     form.setValue(name, value);
 
@@ -18,6 +34,7 @@ const FormSelect = ({ _name, form, defaultValue, options, label }) => {
         options={options}
         defaultValue={defaultValue}
         style={{ width: "100%" }}
+        {...rest}
       />
     </div>
   );

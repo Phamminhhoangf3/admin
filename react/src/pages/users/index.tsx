@@ -7,6 +7,7 @@ import {
 } from "~/config/initialFilter";
 import { ENDPOINTS } from "~/constants/common";
 import CommonDate from "~/utils/common-date";
+import { tagActive } from "~/utils/tags";
 
 type UserRecordType = {
   _id: string;
@@ -27,6 +28,13 @@ const Users = () => {
       dataIndex: "level",
       key: "level",
       align: "center",
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "active",
+      key: "active",
+      align: "center",
+      render: (text: boolean) => tagActive(text),
     },
     {
       title: "Ngày tạo",
@@ -71,8 +79,8 @@ const Users = () => {
       title="Tài khoản quản trị"
       handleDataSubmit={(data) => {
         const dataNew = { ...data };
-        if (!!data?.keyword) dataNew.keyword = data.keyword.trim();
-        if (data?.status !== undefined) dataNew.status = data.status === "true";
+        if (!!data?.keywords) dataNew.keywords = data.keywords.trim();
+        if (data?.status) dataNew.status = data.status === "true";
         return dataNew;
       }}
     />
