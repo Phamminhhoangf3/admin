@@ -1,0 +1,6 @@
+export const FORMAT_DATE_TIME = 'DD/MM/yyyy HH:mm'
+export const FORMAT_DATE_NOT_TIME = 'DD/MM/yyyy'
+export const FORMAT_DATE_MONTH = 'MM/yyyy'
+export const FORMAT_DATE_SUBMIT =  'YYYY-MM-DDTHH:mm:ss'
+export const FORMAT_DATE_MONTH_SUBMIT =  'YYYY-MMTHH:mm:ss'
+export const TZ_HCM = 'Asia/Ho_Chi_Minh'
