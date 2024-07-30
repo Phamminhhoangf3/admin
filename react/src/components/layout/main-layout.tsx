@@ -1,6 +1,7 @@
-import { Breadcrumb, Layout, theme } from "antd";
+import { Layout, theme } from "antd";
 import { Outlet } from "react-router-dom";
 import NavbarNested from "~/components/navbar/nav-bar";
+import AntdBreadcrumb from "../breadcrumnd";
 
 const { Header, Content, Footer } = Layout;
 
@@ -15,10 +16,7 @@ const MainLayout = () => {
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }} />
         <Content style={{ margin: "0 16px" }}>
-          <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>User</Breadcrumb.Item>
-            <Breadcrumb.Item>Bill</Breadcrumb.Item>
-          </Breadcrumb>
+          <AntdBreadcrumb />
           <Outlet />
         </Content>
         <Footer style={{ textAlign: "center" }}>
