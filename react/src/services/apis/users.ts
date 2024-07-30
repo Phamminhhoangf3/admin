@@ -17,3 +17,12 @@ export const createUser = async (requestParams: CreateUserType) => {
     console.log(error);
   }
 };
+
+export const deleteUser = async (id: string) => {
+  try {
+    const response = await http.delete(`${ENDPOINTS.addUser}/${id}`);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -14,8 +14,12 @@ const NavbarNested: React.FC = () => {
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
     >
-      <div className="demo-logo-vertical w-2 h-2"/>
-      <Menu theme="dark" mode="inline" selectedKeys={[location.pathname]}>
+      <div className="demo-logo-vertical w-2 h-2" />
+      <Menu
+        theme="dark"
+        mode="inline"
+        selectedKeys={[location.pathname.split("/")[1]]}
+      >
         {dataMenu.map((item) => (
           <Menu.Item key={item.url}>
             <NavLink to={item.url}>

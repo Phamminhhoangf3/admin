@@ -14,6 +14,7 @@ export const ROOT_URL =
 export const ENDPOINTS = Object.freeze({
   user: `${ROOT_URL}/v1/users`,
   addUser: `${ROOT_URL}/v1/users/add`,
+  deleteUser: `${ROOT_URL}/v1/users`,
   LOGOUT: "api/admin/auth/logout",
   TWO_FACTOR_AUTH: "api/auth/twofactorlogin",
 });

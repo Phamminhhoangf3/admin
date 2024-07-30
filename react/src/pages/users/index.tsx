@@ -1,11 +1,13 @@
 import { ColumnType } from "antd/es/table";
 import PageCommonList from "~/components/PageCommonList";
+import { NameAction } from "~/components/PageCommonList/pageCommonList.type";
 import {
   getInitialFilters,
   KeyInitialFilters,
   PropsInitialFilters,
 } from "~/config/initialFilter";
 import { ENDPOINTS } from "~/constants/common";
+import { paths } from "~/constants/path";
 import CommonDate from "~/utils/common-date";
 import { tagActive } from "~/utils/tags";
 
@@ -68,15 +70,42 @@ const Users = () => {
     return propsFilter;
   };
 
+  const actionsUser = {
+    fieldId: "_id",
+    list: [
+      {
+        name: "view" as NameAction,
+        url: (id: string) => `${paths.viewUser}/${id}`,
+        roles: [],
+      },
+      {
+        name: "edit" as NameAction,
+        url: (id: string) => `${paths.updateUser}/${id}`,
+        roles: [],
+      },
+      {
+        name: "delete" as NameAction,
+        url: (id: string) => `${ENDPOINTS.deleteUser}/${id}`,
+        getTitle: (item: any) => {
+          console.log({ item });
+
+          return item?.userName;
+        },
+        roles: [],
+      },
+    ],
+  };
+
   return (
     <PageCommonList
       initialQuery={{
         endpoint: ENDPOINTS.user,
-        add: `/${ENDPOINTS.addUser}`,
+        add: paths.addUser,
       }}
       columnsTable={columns}
       initialFilters={getInitialFilters(filterNames, returnPropsFilter)}
       title="Tài khoản quản trị"
+      actions={actionsUser}
       handleDataSubmit={(data) => {
         const dataNew = { ...data };
         if (!!data?.keywords) dataNew.keywords = data.keywords.trim();

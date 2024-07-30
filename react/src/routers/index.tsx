@@ -8,12 +8,12 @@ import { paths } from "~/constants/path";
 export default function RouteElements() {
   const element = useRoutes([
     {
-      path: paths.root,
+      path: paths.root.substring(1),
       element: <MainLayout />,
       children: [
         { path: "", element: <Home /> },
         {
-          path: paths.users,
+          path: paths.users.substring(1),
           children: [
             { path: "", element: <Users /> },
             { path: "add", element: <DetailUser typePage="add" /> },

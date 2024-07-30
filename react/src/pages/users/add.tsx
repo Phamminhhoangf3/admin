@@ -55,7 +55,7 @@ const DetailUser = ({ typePage }: DetailUserType) => {
         messageApi.open({
           type: "success",
           content: "Tạo người dùng thành công !",
-          onClose: () => navigate(`/${paths.users}`),
+          onClose: () => navigate(paths.users),
         });
       }
     } catch (error) {
@@ -77,8 +77,8 @@ const DetailUser = ({ typePage }: DetailUserType) => {
         type={typePage}
         formListItem={getFormListItem(listName, returnPropItem)}
         onSubmit={handleSubmit}
-        pathEdit={`/${paths.updateUser}/update?id=${id}`}
-        pathBack={`/${paths.users}`}
+        pathEdit={`${paths.updateUser}/update?id=${id}`}
+        pathBack={paths.users}
       />
       {contextHolder}
     </>

@@ -9,6 +9,7 @@ import { useFetchData } from "~/hook/useFetchData";
 import { PageCommonListType } from "./pageCommonList.type";
 import useColumnsTable from "~/hook/useColumnsTable";
 import { useNavigate } from "react-router-dom";
+import { verifyDelete } from "../popup-delete";
 
 const PageCommonList = (props: PageCommonListType) => {
   const {
@@ -29,7 +30,19 @@ const PageCommonList = (props: PageCommonListType) => {
 
   const requestDefault = handleRequestDefault(defaultValues);
 
-  const { data: columns } = useColumnsTable(columnsTable, actions);
+  const handleDelete = async (endpoint: string, name: string) => {
+    verifyDelete({
+      name,
+      refetchList: () => updateParamsQuery({}),
+      endpoint: endpoint,
+    });
+  };
+
+  const { data: columns } = useColumnsTable(
+    columnsTable,
+    actions,
+    handleDelete
+  );
 
   const { data, updateParamsQuery, setRequest } = useFetchData({
     endpoint,
@@ -69,7 +82,7 @@ const PageCommonList = (props: PageCommonListType) => {
               type="primary"
               icon={<PlusOutlined />}
               onClick={() => {
-                navigate('/users/add');
+                navigate(add);
               }}
             >
               Thêm

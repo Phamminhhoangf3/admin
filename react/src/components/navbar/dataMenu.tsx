@@ -11,11 +11,11 @@ export const dataMenu: dataMenuType[] = [
   {
     label: "Trang chủ",
     icon: <HomeOutlined />,
-    url: paths.root,
+    url: paths.root.substring(1),
   },
   {
     label: "Người dùng",
     icon: <UserOutlined />,
-    url: paths.users,
+    url: paths.users.substring(1),
   },
 ];
