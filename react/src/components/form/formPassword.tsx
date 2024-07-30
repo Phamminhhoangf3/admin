@@ -1,3 +1,4 @@
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Input, Typography } from "antd";
 import { InputProps } from "antd/lib";
 
@@ -7,7 +8,7 @@ interface FormInputType extends InputProps {
   label: string;
 }
 
-const FormInput = ({ name, form, label, ...props }: FormInputType) => {
+const FormPassword = ({ name, form, label, ...props }: FormInputType) => {
   const getChangeHandlerWithEvent = (name) => (event) =>
     form.setValue(name, event.target.value);
 
@@ -16,8 +17,11 @@ const FormInput = ({ name, form, label, ...props }: FormInputType) => {
       <Typography.Title level={5} style={{ fontWeight: 400 }}>
         {label}
       </Typography.Title>
-      <Input
+      <Input.Password
         {...props}
+        iconRender={(visible) =>
+          visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+        }
         onChange={getChangeHandlerWithEvent(name)}
         value={form.watch(name)}
         status={form.formState.errors?.[name] ? "error" : ""}
@@ -26,4 +30,4 @@ const FormInput = ({ name, form, label, ...props }: FormInputType) => {
   );
 };
 
-export default FormInput;
+export default FormPassword;

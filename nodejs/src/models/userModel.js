@@ -2,13 +2,14 @@ import Joi from 'joi'
 import moment from 'moment'
 import { ObjectId } from 'mongodb'
 import { GET_DB } from '~/config/mongodb'
+import { regexPassword } from '~/config/regex'
 
 const USER_COLLECTION_NAME = 'users'
 const USER_COLLECTION_SCHEMA = Joi.object({
-  username: Joi.string().min(3).max(30).required(),
+  userName: Joi.string().min(3).max(30).required(),
   level: Joi.number().min(1).max(7).required(),
   active: Joi.boolean().required(),
-  password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+  password: Joi.string().pattern(new RegExp(regexPassword)),
   repeatPassword: Joi.ref('password'),
   createdAt: Joi.date().timestamp('javascript').default(Date.now),
   updatedAt: Joi.date().timestamp('javascript').default(null),
@@ -45,7 +46,7 @@ const findOneById = async userId => {
 const getAll = async (filters = {}) => {
   try {
     const query = {}
-    if (filters.keywords) query.username = filters.keywords
+    if (filters.keywords) query.userName = filters.keywords
     if (filters.status !== undefined) query.active = filters.status
     if (filters.fromDate && filters.toDate) {
       query.createdAt = {}

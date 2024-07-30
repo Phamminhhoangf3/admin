@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import http from "~/common/http";
-import { ROOT_URL } from "~/constants/common";
-
-const _ROOT_URL = `${ROOT_URL}/v1/`;
 export const useFetchData = ({
   endpoint,
   paramsQuery = {},
@@ -19,12 +16,11 @@ export const useFetchData = ({
   const fetchData = async () => {
     setLoading(true);
     try {
-      const fullEndpoint = _ROOT_URL + endpoint;
       let response;
       if (method === "GET")
-        response = await http.get(fullEndpoint, { params: request });
+        response = await http.get(endpoint, { params: request });
       else if (method === "POST") {
-        response = await http.post(fullEndpoint, request);
+        response = await http.post(endpoint, request);
       }
       if (response.status === 200) {
         const dataNew = handleData(response.data);

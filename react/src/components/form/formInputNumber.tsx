@@ -1,22 +1,22 @@
-import { Input, Typography } from "antd";
-import { InputProps } from "antd/lib";
+import { InputNumber, InputNumberProps, Typography } from "antd";
 
-interface FormInputType extends InputProps {
+interface FormInputType extends InputNumberProps {
   name: string;
   form: any;
   label: string;
 }
 
-const FormInput = ({ name, form, label, ...props }: FormInputType) => {
-  const getChangeHandlerWithEvent = (name) => (event) =>
-    form.setValue(name, event.target.value);
+const FormInputNumber = ({ name, form, label, ...props }: FormInputType) => {
+  const getChangeHandlerWithEvent = (name) => (value) =>
+    form.setValue(name, value);
 
   return (
     <div>
       <Typography.Title level={5} style={{ fontWeight: 400 }}>
         {label}
       </Typography.Title>
-      <Input
+      <InputNumber
+        style={{ width: "100%" }}
         {...props}
         onChange={getChangeHandlerWithEvent(name)}
         value={form.watch(name)}
@@ -26,4 +26,4 @@ const FormInput = ({ name, form, label, ...props }: FormInputType) => {
   );
 };
 
-export default FormInput;
+export default FormInputNumber;

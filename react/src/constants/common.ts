@@ -8,15 +8,15 @@ function generateSecretKey(length) {
 
 export const secretKey = generateSecretKey(32); // Tạo khóa bí mật 256-bit
 
+export const ROOT_URL =
+  import.meta.env.VITE_ROOT_URL || "http://localhost:8017";
+
 export const ENDPOINTS = Object.freeze({
-  user: "users",
-  addUser: "users/add",
+  user: `${ROOT_URL}/v1/users`,
+  addUser: `${ROOT_URL}/v1/users/add`,
   LOGOUT: "api/admin/auth/logout",
   TWO_FACTOR_AUTH: "api/auth/twofactorlogin",
 });
-
-export const ROOT_URL =
-  import.meta.env.VITE_ROOT_URL || "http://localhost:8017";
 
 export const PERMISSIONS = Object.freeze({
   CATEGORIES: "Categories",

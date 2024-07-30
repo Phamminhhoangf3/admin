@@ -2,21 +2,21 @@ import { useRoutes } from "react-router-dom";
 import Home from "~/pages/home";
 import MainLayout from "~/components/layout/main-layout";
 import Users from "~/pages/users";
-import { ENDPOINTS } from "~/constants/common";
 import DetailUser from "~/pages/users/add";
+import { paths } from "~/constants/path";
 
 export default function RouteElements() {
   const element = useRoutes([
     {
-      path: "/",
+      path: paths.root,
       element: <MainLayout />,
       children: [
         { path: "", element: <Home /> },
         {
-          path: ENDPOINTS.user,
+          path: paths.users,
           children: [
             { path: "", element: <Users /> },
-            { path: "add", element: <DetailUser /> },
+            { path: "add", element: <DetailUser typePage="add" /> },
           ],
         },
       ],

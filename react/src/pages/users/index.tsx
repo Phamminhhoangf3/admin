@@ -11,7 +11,7 @@ import { tagActive } from "~/utils/tags";
 
 type UserRecordType = {
   _id: string;
-  username: string;
+  userName: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -20,8 +20,8 @@ const Users = () => {
   const columns: ColumnType<UserRecordType>[] = [
     {
       title: "Tên đăng nhập",
-      dataIndex: "username",
-      key: "username",
+      dataIndex: "userName",
+      key: "userName",
     },
     {
       title: "Cấp bậc",
@@ -72,7 +72,7 @@ const Users = () => {
     <PageCommonList
       initialQuery={{
         endpoint: ENDPOINTS.user,
-        add: ENDPOINTS.addUser,
+        add: `/${ENDPOINTS.addUser}`,
       }}
       columnsTable={columns}
       initialFilters={getInitialFilters(filterNames, returnPropsFilter)}
