@@ -29,6 +29,14 @@ const getList = async filters => {
   }
 };
 
+const getDetail = async id => {
+  try {
+    return await userModel.getDetail(id);
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteItem = async id => {
   try {
     return await userModel.deleteItem(id);
@@ -37,4 +45,4 @@ const deleteItem = async id => {
   }
 };
 
-export const userService = { createNew, getList, deleteItem };
+export const userService = { createNew, getList, deleteItem, getDetail };

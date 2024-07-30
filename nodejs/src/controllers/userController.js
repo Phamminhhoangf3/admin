@@ -30,4 +30,14 @@ const deleteItem = async (req, res, next) => {
   }
 };
 
-export const userController = { createNew, getList, deleteItem };
+const getDetail = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const detailUser = await userService.getDetail(id);
+    res.status(StatusCodes.OK).json(detailUser);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const userController = { createNew, getList, deleteItem, getDetail };

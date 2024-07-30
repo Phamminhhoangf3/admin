@@ -43,6 +43,25 @@ const findOneById = async userId => {
   }
 };
 
+const getDetail = async userId => {
+  try {
+    const result = await GET_DB()
+      .collection(USER_COLLECTION_NAME)
+      .findOne(
+        {
+          _id: new ObjectId(userId),
+          _destroy: false
+        },
+        {
+          projection: { password: 0, repeatPassword: 0, _destroy: 0 }
+        }
+      );
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const getAll = async (filters = {}) => {
   try {
     const query = { _destroy: false };
@@ -95,5 +114,6 @@ export const userModel = {
   createNew,
   findOneById,
   getAll,
-  deleteItem
+  deleteItem,
+  getDetail
 };
