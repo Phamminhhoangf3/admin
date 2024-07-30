@@ -1,23 +1,33 @@
-import { StatusCodes } from 'http-status-codes'
-import { userService } from '~/services/userService'
+import { StatusCodes } from 'http-status-codes';
+import { userService } from '~/services/userService';
 
 const createNew = async (req, res, next) => {
   try {
-    const createdUser = await userService.createNew(req.body)
-    res.status(StatusCodes.CREATED).json(createdUser)
+    const createdUser = await userService.createNew(req.body);
+    res.status(StatusCodes.CREATED).json(createdUser);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
 const getList = async (req, res, next) => {
   try {
-    const filters = req.body
-    const getListUser = await userService.getList(filters)
-    res.status(StatusCodes.OK).json(getListUser)
+    const filters = req.body;
+    const getListUser = await userService.getList(filters);
+    res.status(StatusCodes.OK).json(getListUser);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
 
-export const userController = { createNew, getList }
+const deleteItem = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const deletedUser = await userService.deleteItem(id);
+    res.status(StatusCodes.OK).json(deletedUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const userController = { createNew, getList, deleteItem };
