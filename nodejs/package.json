@@ -27,7 +27,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "mongodb": "^6.8.0",
-    "yarn": "^1.22.22"
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.10",
