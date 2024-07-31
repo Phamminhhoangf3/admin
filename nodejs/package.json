@@ -39,6 +39,5 @@
     "babel-plugin-module-resolver": "^5.0.0",
     "eslint": "^8.47.0",
     "nodemon": "^3.0.1"
-  },
-  "packageManager": "yarn@3.2.1+sha512.2e8753234dc01d8cc7ed64c98e459a382c68cf239ce06102b2bec91cbbdf383ba520010e85df0f70fc400648d0706ac5bf37b59d99e3488c44a5436b50bf4204"
+  }
 }
