@@ -20,11 +20,9 @@ const USER_UPDATE_SCHEMA = Joi.object({
   userName: Joi.string().min(3).max(30),
   level: Joi.number().min(1).max(7),
   active: Joi.boolean(),
-  password: Joi.string().pattern(new RegExp(regexPassword)),
-  repeatPassword: Joi.ref('password'),
   updatedAt: Joi.date().timestamp('javascript').default(Date.now),
   _destroy: Joi.boolean().default(false)
-}).with('password', 'repeatPassword');
+});
 
 const validationBeforeCreate = async data => {
   return await USER_COLLECTION_SCHEMA.validateAsync(data, { abortEarly: false });
@@ -49,6 +47,8 @@ const updateItem = async (id, data) => {
     const validData = await validationBeforeUpdate(data);
     delete validData.createdAt;
     delete validData._id;
+    delete validData.password;
+    delete validData.repeatPassword;
     validData.updatedAt = Date.now();
     const objectId = new ObjectId(id);
     const result = await GET_DB().collection(USER_COLLECTION_NAME).updateOne(
