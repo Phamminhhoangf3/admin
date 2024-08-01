@@ -117,25 +117,29 @@ const formItems: FormItemsType = {
     col: 12,
     colSm: 4,
     value: "",
-    control: ({ form, type }) => (
-      <FormPassword
-        name={name}
-        form={form}
-        defaultValue=""
-        label="Mật khẩu:"
-        placeholder="Nhập mật khẩu"
-        disabled={type === "detail"}
-        allowClear
-        {...form.register(name, {
-          required: "Vui lòng nhập mật khẩu !",
-          pattern: {
-            value: REGEX_PASSWORD,
-            message:
-              "Mật khẩu phải chứa các ký tự là chữ thường, chữ hoa, và chữ số",
-          },
-        })}
-      />
-    ),
+    control: ({ form, type }) => {
+      const required =
+        type === "add" ? { required: "Vui lòng nhập xác nhận mật khẩu !" } : {};
+      return (
+        <FormPassword
+          name={name}
+          form={form}
+          defaultValue=""
+          label="Mật khẩu:"
+          placeholder="Nhập mật khẩu"
+          disabled={type !== "add"}
+          allowClear
+          {...form.register(name, {
+            ...required,
+            pattern: {
+              value: REGEX_PASSWORD,
+              message:
+                "Mật khẩu phải chứa các ký tự là chữ thường, chữ hoa, và chữ số",
+            },
+          })}
+        />
+      );
+    },
   }),
   repeatPassword: ({ name = "repeatPassword" }) => ({
     key: name,
@@ -144,25 +148,29 @@ const formItems: FormItemsType = {
     col: 12,
     colSm: 4,
     value: "",
-    control: ({ form, type }) => (
-      <FormPassword
-        name={name}
-        form={form}
-        defaultValue=""
-        label="Xác nhận mật khẩu:"
-        placeholder="Nhập xác nhận mật khẩu"
-        disabled={type === "detail"}
-        allowClear
-        {...form.register(name, {
-          required: "Vui lòng nhập xác nhận mật khẩu !",
-          pattern: {
-            value: REGEX_PASSWORD,
-            message:
-              "Mật khẩu phải có chữ hoa, chữ thường, chữ số, ký tự đặc biệt và tối thiểu 8 ký tự !",
-          },
-        })}
-      />
-    ),
+    control: ({ form, type }) => {
+      const required =
+        type === "add" ? { required: "Vui lòng nhập xác nhận mật khẩu !" } : {};
+      return (
+        <FormPassword
+          name={name}
+          form={form}
+          defaultValue=""
+          label="Xác nhận mật khẩu:"
+          placeholder="Nhập xác nhận mật khẩu"
+          disabled={type !== "add"}
+          allowClear
+          {...form.register(name, {
+            ...required,
+            pattern: {
+              value: REGEX_PASSWORD,
+              message:
+                "Mật khẩu phải có chữ hoa, chữ thường, chữ số, ký tự đặc biệt và tối thiểu 8 ký tự !",
+            },
+          })}
+        />
+      );
+    },
   }),
 };
 

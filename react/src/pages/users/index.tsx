@@ -86,11 +86,7 @@ const Users = () => {
       {
         name: "delete" as NameAction,
         url: (id: string) => `${ENDPOINTS.deleteUser}/${id}`,
-        getTitle: (item: any) => {
-          console.log({ item });
-
-          return item?.userName;
-        },
+        getTitle: (item: any) => item?.userName,
         roles: [],
       },
     ],

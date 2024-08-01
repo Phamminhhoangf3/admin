@@ -7,9 +7,10 @@ import {
   KeyFormItemType,
   PropsItemType,
 } from "~/components/form-page/formItem";
+import { ENDPOINTS } from "~/constants/common";
 import { paths } from "~/constants/path";
 import { useFetchData } from "~/hook/useFetchData";
-import { createUser } from "~/services/apis/users";
+import { createUser, updateUser } from "~/services/apis/users";
 import { TypePage } from "~/types";
 
 type DetailUserType = {
@@ -27,7 +28,7 @@ const DetailUser = ({ typePage }: DetailUserType) => {
 
   const { isLoading } = state;
   const { data: dataDetails } = useFetchData({
-    endpoint: "",
+    endpoint: `${ENDPOINTS.detailUser}/${id}`,
   });
 
   const listName = [
@@ -50,18 +51,28 @@ const DetailUser = ({ typePage }: DetailUserType) => {
 
   const handleSubmit = async (data) => {
     try {
-      const res = await createUser(data);
-      if (res?.status === 201) {
+      let res;
+      if (typePage === "add") res = await createUser(data);
+      if (typePage === "update" && id) {
+        const dataUpdate = { ...data };
+        delete dataUpdate.password;
+        delete dataUpdate.repeatPassword;
+        res = await updateUser(id, dataUpdate);
+      }
+      if (res?.status === 201 || res?.status === 200) {
+        let message = "";
+        if (typePage === "add") message = "Tạo người dùng thành công !";
+        if (typePage === "update") message = "Cập nhật người dùng thành công !";
         messageApi.open({
           type: "success",
-          content: "Tạo người dùng thành công !",
+          content: message,
           onClose: () => navigate(paths.users),
         });
       }
     } catch (error) {
       messageApi.open({
         type: "error",
-        content: "Tạo người dùng không thành công !",
+        content: "Thao tác không thành công !",
       });
       console.log(error);
     }

@@ -21,8 +21,12 @@ export default function RouteElements() {
               element: <DetailUser typePage="add" />,
             },
             {
-              path: 'view/:id',
+              path: "view/:id",
               element: <DetailUser typePage="detail" />,
+            },
+            {
+              path: "update/:id",
+              element: <DetailUser typePage="update" />,
             },
           ],
         },
