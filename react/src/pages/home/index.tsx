@@ -1,7 +1,3 @@
-const Home = () => (
-  <div className="App">
-    <h1>Create React Project with Ant Design and Less Support</h1>
-  </div>
-);
+const Home = () => <div className="App"></div>;
 
 export default Home;
