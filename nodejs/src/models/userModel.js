@@ -16,8 +16,22 @@ const USER_COLLECTION_SCHEMA = Joi.object({
   _destroy: Joi.boolean().default(false)
 }).with('password', 'repeatPassword');
 
+const USER_UPDATE_SCHEMA = Joi.object({
+  userName: Joi.string().min(3).max(30),
+  level: Joi.number().min(1).max(7),
+  active: Joi.boolean(),
+  password: Joi.string().pattern(new RegExp(regexPassword)),
+  repeatPassword: Joi.ref('password'),
+  updatedAt: Joi.date().timestamp('javascript').default(Date.now),
+  _destroy: Joi.boolean().default(false)
+}).with('password', 'repeatPassword');
+
 const validationBeforeCreate = async data => {
   return await USER_COLLECTION_SCHEMA.validateAsync(data, { abortEarly: false });
+};
+
+const validationBeforeUpdate = async data => {
+  return await USER_UPDATE_SCHEMA.validateAsync(data, { abortEarly: false });
 };
 
 const createNew = async data => {
@@ -25,6 +39,31 @@ const createNew = async data => {
     const validData = await validationBeforeCreate(data);
     const createdUser = await GET_DB().collection(USER_COLLECTION_NAME).insertOne(validData);
     return createdUser;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+const updateItem = async (id, data) => {
+  try {
+    const validData = await validationBeforeUpdate(data);
+    delete validData.createdAt;
+    delete validData._id;
+    validData.updatedAt = Date.now();
+    const objectId = new ObjectId(id);
+    const result = await GET_DB().collection(USER_COLLECTION_NAME).updateOne(
+      {
+        _id: objectId,
+        _destroy: false
+      },
+      {
+        $set: validData
+      }
+    );
+    if (result.matchedCount === 0) {
+      throw new Error('No documents matches the provided id');
+    }
+    return await findOneById(objectId);
   } catch (error) {
     throw new Error(error);
   }
@@ -115,5 +154,6 @@ export const userModel = {
   findOneById,
   getAll,
   deleteItem,
-  getDetail
+  getDetail,
+  updateItem
 };

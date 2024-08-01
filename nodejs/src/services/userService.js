@@ -45,4 +45,12 @@ const deleteItem = async id => {
   }
 };
 
-export const userService = { createNew, getList, deleteItem, getDetail };
+const updateItem = async (id, values) => {
+  try {
+    return await userModel.updateItem(id, values);
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const userService = { createNew, getList, deleteItem, getDetail, updateItem };

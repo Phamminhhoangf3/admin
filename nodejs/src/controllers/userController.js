@@ -30,6 +30,17 @@ const deleteItem = async (req, res, next) => {
   }
 };
 
+const updateItem = async (req, res, next) => {
+  try {
+    const values = req.body;
+    const id = req.params.id;
+    const updatedUser = await userService.updateItem(id, values);
+    res.status(StatusCodes.OK).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const getDetail = async (req, res, next) => {
   try {
     const id = req.params.id;
@@ -38,6 +49,6 @@ const getDetail = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-}
+};
 
-export const userController = { createNew, getList, deleteItem, getDetail };
+export const userController = { createNew, getList, deleteItem, getDetail, updateItem };
