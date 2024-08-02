@@ -39,4 +39,4 @@ jobs:
         with:
           project: "phamminhhoa-admin-92"
           entrypoint: "build"
-          root: "nodejs"
+          root: "/nodejs"
