@@ -6,7 +6,7 @@ function generateSecretKey(length) {
   );
 }
 
-export const secretKey = generateSecretKey(32); // Tạo khóa bí mật 256-bit
+export const secretKey = generateSecretKey(32);
 
 export const ROOT_URL =
   import.meta.env.VITE_ROOT_URL || "http://localhost:8017";
