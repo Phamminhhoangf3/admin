@@ -18,7 +18,7 @@ const NavbarNested: React.FC = () => {
       <Menu
         theme="dark"
         mode="inline"
-        selectedKeys={[location.pathname.split("/")[1]]}
+        // selectedKeys={[location.pathname.split("/")[1]]}
       >
         {dataMenu.map((item) => (
           <Menu.Item key={item.url}>

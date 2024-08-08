@@ -19,15 +19,11 @@ type DetailUserType = {
 
 const DetailUser = ({ typePage }: DetailUserType) => {
   const [messageApi, contextHolder] = message.useMessage();
+  const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [state, setState] = useState({
-    account: null,
-    isLoading: false,
-  });
   const { id } = useParams();
 
-  const { isLoading } = state;
-  const { data: dataDetails } = useFetchData({
+  const { data: dataDetails, loading } = useFetchData({
     endpoint: `${ENDPOINTS.detailUser}/${id}`,
   });
 
@@ -51,6 +47,7 @@ const DetailUser = ({ typePage }: DetailUserType) => {
 
   const handleSubmit = async (data) => {
     try {
+      setLoadingSubmit(true);
       let res;
       if (typePage === "add") res = await createUser(data);
       if (typePage === "update" && id) {
@@ -60,21 +57,23 @@ const DetailUser = ({ typePage }: DetailUserType) => {
         res = await updateUser(id, dataUpdate);
       }
       if (res?.status === 201 || res?.status === 200) {
+        setLoadingSubmit(false);
         let message = "";
         if (typePage === "add") message = "Tạo người dùng thành công !";
         if (typePage === "update") message = "Cập nhật người dùng thành công !";
         messageApi.open({
           type: "success",
           content: message,
-          onClose: () => navigate(paths.users),
+          onClose: () => navigate("/"),
         });
       }
+      setLoadingSubmit(false);
     } catch (error) {
+      setLoadingSubmit(false);
       messageApi.open({
         type: "error",
         content: "Thao tác không thành công !",
       });
-      console.log(error);
     }
   };
 
@@ -82,14 +81,14 @@ const DetailUser = ({ typePage }: DetailUserType) => {
     <>
       <FormPage
         detailsData={dataDetails}
-        isLoading={isLoading}
-        setData={setState}
+        loading={loading || loadingSubmit}
         title="Tài khoản quản trị"
         type={typePage}
         formListItem={getFormListItem(listName, returnPropItem)}
         onSubmit={handleSubmit}
         pathEdit={`${paths.updateUser}/update?id=${id}`}
-        pathBack={paths.users}
+        // pathBack={paths.users}
+        pathBack={"/"}
       />
       {contextHolder}
     </>

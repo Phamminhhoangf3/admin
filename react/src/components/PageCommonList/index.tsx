@@ -44,7 +44,7 @@ const PageCommonList = (props: PageCommonListType) => {
     handleDelete
   );
 
-  const { data, updateParamsQuery, setRequest } = useFetchData({
+  const { data, updateParamsQuery, setRequest, loading } = useFetchData({
     endpoint,
     paramsQuery: requestDefault,
     method: "POST",
@@ -84,6 +84,7 @@ const PageCommonList = (props: PageCommonListType) => {
               onClick={() => {
                 navigate(add);
               }}
+              loading={loading}
             >
               Thêm
             </Button>
@@ -100,13 +101,18 @@ const PageCommonList = (props: PageCommonListType) => {
           </Flex>
           <div style={{ textAlign: "right" }}>
             <Space size="small">
-              <Button icon={<ReloadOutlined />} onClick={handleReset}>
+              <Button
+                icon={<ReloadOutlined />}
+                onClick={handleReset}
+                loading={loading}
+              >
                 Đặt lại
               </Button>
               <Button
                 type="primary"
                 htmlType="submit"
                 icon={<SearchOutlined />}
+                loading={loading}
               >
                 Tìm kiếm
               </Button>
@@ -120,6 +126,7 @@ const PageCommonList = (props: PageCommonListType) => {
           bordered
           columns={columns}
           dataSource={handleData(data)}
+          loading={loading}
         />
       </Card>
     </Space>

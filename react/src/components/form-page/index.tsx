@@ -9,17 +9,17 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FormListItemType } from "./formItem";
 import { TypePage } from "~/types";
+import LoadingContainer from "../loadingContainer";
 
 type FormPageType = {
   detailsData?: any;
   type: TypePage;
-  setData: (prev: any) => void;
   title: string;
   pathEdit?: string;
   pathBack: string;
   formListItem: FormListItemType[];
   onSubmit: (data) => void;
-  isLoading?: boolean;
+  loading?: boolean;
 };
 
 const FormPage = (props: FormPageType) => {
@@ -31,6 +31,7 @@ const FormPage = (props: FormPageType) => {
     pathBack,
     formListItem,
     onSubmit,
+    loading,
   } = props;
 
   const navigate = useNavigate();
@@ -85,33 +86,39 @@ const FormPage = (props: FormPageType) => {
           {title}
         </Typography>
       }
-    >      
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Row gutter={16}>
-          {formListItem?.map((item) => (
-            <Col md={6} sm={6} xs={12} key={item.key}>
-              {item.control({ form, type })}
-              {errors?.[item?.name]?.message && (
-                <Typography.Text type="danger">
-                  {errors?.[item?.name]?.message as string}
-                </Typography.Text>
-              )}
-            </Col>
-          ))}
-        </Row>
-        {type !== "detail" && (
-          <Flex justify="flex-end">
-            <Space>
-              <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
-                Lưu
-              </Button>
-              <Button icon={<ReloadOutlined />} onClick={handleReset}>
-                Đặt lại
-              </Button>
-            </Space>
-          </Flex>
-        )}
-      </form>
+    >
+      <LoadingContainer loading={loading}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Row gutter={16}>
+            {formListItem?.map((item) => (
+              <Col md={6} sm={6} xs={12} key={item.key}>
+                {item.control({ form, type })}
+                {errors?.[item?.name]?.message && (
+                  <Typography.Text type="danger">
+                    {errors?.[item?.name]?.message as string}
+                  </Typography.Text>
+                )}
+              </Col>
+            ))}
+          </Row>
+          {type !== "detail" && (
+            <Flex justify="flex-end">
+              <Space>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  icon={<SaveOutlined />}
+                >
+                  Lưu
+                </Button>
+                <Button icon={<ReloadOutlined />} onClick={handleReset}>
+                  Đặt lại
+                </Button>
+              </Space>
+            </Flex>
+          )}
+        </form>
+      </LoadingContainer>
     </Card>
   );
 };
