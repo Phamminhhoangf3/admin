@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes'
 import Joi from 'joi'
-import { regexPassword } from '~/config/regex'
-import ApiError from '~/utils/ApiError'
+import { regexPassword } from '../config/regex.js'
+import ApiError from '../utils/ApiError.js'
 
 const createNew = async (req, res, next) => {
   const correctCondition = Joi.object({

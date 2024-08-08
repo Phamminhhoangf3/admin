@@ -1,8 +1,8 @@
 import Joi from 'joi';
 import moment from 'moment';
 import { ObjectId } from 'mongodb';
-import { GET_DB } from '~/config/mongodb';
-import { regexPassword } from '~/config/regex';
+import { GET_DB } from '../config/mongodb.js';
+import { regexPassword } from '../config/regex.js';
 
 const USER_COLLECTION_NAME = 'users';
 const USER_COLLECTION_SCHEMA = Joi.object({

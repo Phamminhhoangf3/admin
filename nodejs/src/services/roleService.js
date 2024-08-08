@@ -1,4 +1,4 @@
-import { roleModel } from '~/models/roleModel'
+import { roleModel } from '../models/roleModel.js'
 
 const createNew = async reqBody => {
   try {

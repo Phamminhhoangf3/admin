@@ -1,7 +1,7 @@
 import express from 'express'
-import { userRoute } from './userRoute'
+import { userRoute } from './userRoute.js'
 import { StatusCodes } from 'http-status-codes'
-import { roleRoute } from './roleRoute'
+import { roleRoute } from './roleRoute.js'
 
 const Router = express.Router()
 

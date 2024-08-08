@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import { roleService } from '~/services/roleService'
+import { roleService } from '../services/roleService.js'
 
 const createNew = async (req, res, next) => {
   try {

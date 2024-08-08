@@ -2,11 +2,11 @@
 import express from 'express';
 import cors from 'cors';
 import exitHook from 'async-exit-hook';
-import { APIs_V1 } from './routes/v1';
-import { CLOSE_DB, CONNECT_DB } from './config/mongodb';
-import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware';
-import { env } from './config/environment';
-import { corsOptions } from './config/cors';
+import { APIs_V1 } from './routes/v1/index.js';
+import { CLOSE_DB, CONNECT_DB } from './config/mongodb.js';
+import { errorHandlingMiddleware } from './middlewares/errorHandlingMiddleware.js';
+import { env } from './config/environment.js';
+import { corsOptions } from './config/cors.js';
 
 const START_SERVER = () => {
   const app = express();
@@ -17,7 +17,7 @@ const START_SERVER = () => {
 
   app.use('/v1', APIs_V1);
 
-  app.get('/', (req, res) => res.send('Express on Vercel'));
+  app.get('/', (req, res) => res.send('Wellcome to api admin!'));
 
   app.use(errorHandlingMiddleware);
 

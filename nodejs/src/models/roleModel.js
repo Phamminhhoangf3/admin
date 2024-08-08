@@ -1,6 +1,6 @@
 import Joi from 'joi'
 import { ObjectId } from 'mongodb'
-import { GET_DB } from '~/config/mongodb'
+import { GET_DB } from '../config/mongodb.js'
 
 const ROLE_COLLECTION_NAME = 'roles'
 const ROLE_COLLECTION_SCHEMA = Joi.object({

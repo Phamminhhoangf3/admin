@@ -1,6 +1,6 @@
 import express from 'express'
-import { roleController } from '~/controllers/roleController'
-import { roleValidation } from '~/validations/roleValidation'
+import { roleController } from '../../controllers/roleController.js'
+import { roleValidation } from '../../validations/roleValidation.js'
 
 const Router = express.Router()
 
