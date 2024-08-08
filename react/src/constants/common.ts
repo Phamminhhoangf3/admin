@@ -9,7 +9,7 @@ function generateSecretKey(length) {
 export const secretKey = generateSecretKey(32);
 
 export const ROOT_URL =
-  import.meta.env.VITE_ROOT_URL || "http://localhost:8017";
+  import.meta.env.VITE_ROOT_URL;
 
 export const ENDPOINTS = Object.freeze({
   user: `${ROOT_URL}/v1/users`,
