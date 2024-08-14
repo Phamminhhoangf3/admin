@@ -99,7 +99,7 @@ const PageCommonList = (props: PageCommonListType) => {
               </Col>
             ))}
           </Flex>
-          <div style={{ textAlign: "right" }}>
+          <div style={{ textAlign: "right", marginTop: 12 }}>
             <Space size="small">
               <Button
                 icon={<ReloadOutlined />}
