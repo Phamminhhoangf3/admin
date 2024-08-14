@@ -47,8 +47,8 @@ const Users = () => {
     },
     {
       title: "Ngày cập nhật",
-      dataIndex: "updatedDate",
-      key: "updatedDate",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
       align: "center",
       render: (text: string) => CommonDate.formatDatetime(text),
     },
