@@ -18,9 +18,14 @@ export const useFetchData = ({
     try {
       let response;
       if (method === "GET")
-        response = await http.get(endpoint, { params: request });
+        response = await http.get(endpoint, {
+          params: request,
+          withCredentials: true,
+        });
       else if (method === "POST") {
-        response = await http.post(endpoint, request);
+        response = await http.post(endpoint, request, {
+          withCredentials: true,
+        });
       }
       if (response.status === 200) {
         const dataNew = handleData(response.data);

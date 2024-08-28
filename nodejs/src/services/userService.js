@@ -37,6 +37,14 @@ const getDetail = async id => {
   }
 };
 
+const getUser = async info => {
+  try {
+    return await userModel.getUser(info);
+  } catch (error) {
+    throw error;
+  }
+};
+
 const deleteItem = async id => {
   try {
     return await userModel.deleteItem(id);
@@ -53,4 +61,4 @@ const updateItem = async (id, values) => {
   }
 };
 
-export const userService = { createNew, getList, deleteItem, getDetail, updateItem };
+export const userService = { createNew, getList, deleteItem, getDetail, updateItem, getUser };

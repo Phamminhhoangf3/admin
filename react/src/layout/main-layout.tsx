@@ -1,14 +1,22 @@
 import { Layout, theme } from "antd";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "~/authProvider";
+import AntdBreadcrumb from "~/components/breadcrumnd";
 import NavbarNested from "~/components/navbar/nav-bar";
-import AntdBreadcrumb from "../breadcrumnd";
+import { paths } from "~/constants/path";
 
 const { Header, Content, Footer } = Layout;
 
-const MainLayout = () => {
+const MainLayout = ({ redirectPath = paths.Login }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to={redirectPath} replace />;
+  }
 
   return (
     <Layout style={{ minHeight: "100vh", minWidth: "100vw" }}>

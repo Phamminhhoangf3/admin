@@ -13,7 +13,9 @@ type UpdateUserType = Omit<CreateUserType, "password" | "repeatPassword">;
 
 export const createUser = async (requestParams: CreateUserType) => {
   try {
-    const response = await http.post(ENDPOINTS.addUser, requestParams);
+    const response = await http.post(ENDPOINTS.addUser, requestParams, {
+      withCredentials: true,
+    });
     return response;
   } catch (error) {
     console.log(error);
@@ -27,7 +29,10 @@ export const updateUser = async (
   try {
     const response = await http.put(
       `${ENDPOINTS.updateUser}/${idUser}`,
-      requestParams
+      requestParams,
+      {
+        withCredentials: true,
+      }
     );
     return response;
   } catch (error) {
@@ -37,7 +42,9 @@ export const updateUser = async (
 
 export const deleteUser = async (id: string) => {
   try {
-    const response = await http.delete(`${ENDPOINTS.addUser}/${id}`);
+    const response = await http.delete(`${ENDPOINTS.addUser}/${id}`, {
+      withCredentials: true,
+    });
     return response;
   } catch (error) {
     console.log(error);

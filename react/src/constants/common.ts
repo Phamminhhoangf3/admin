@@ -8,8 +8,7 @@ function generateSecretKey(length) {
 
 export const secretKey = generateSecretKey(32);
 
-export const ROOT_URL =
-  import.meta.env.VITE_ROOT_URL;
+export const ROOT_URL = import.meta.env.VITE_ROOT_URL;
 
 export const ENDPOINTS = Object.freeze({
   user: `${ROOT_URL}/v1/users`,
@@ -17,6 +16,8 @@ export const ENDPOINTS = Object.freeze({
   deleteUser: `${ROOT_URL}/v1/users/delete`,
   updateUser: `${ROOT_URL}/v1/users/update`,
   detailUser: `${ROOT_URL}/v1/users/detail`,
+  login: `${ROOT_URL}/v1/auth/login`,
+  checkAuth: `${ROOT_URL}/v1/auth/checkAuth`,
   LOGOUT: "api/admin/auth/logout",
   TWO_FACTOR_AUTH: "api/auth/twofactorlogin",
 });

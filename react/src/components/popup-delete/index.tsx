@@ -1,11 +1,7 @@
 import Swal from "sweetalert2";
 import http from "~/common/http";
 
-export const verifyDelete = ({
-  name,
-  endpoint,
-  refetchList,
-}) => {
+export const verifyDelete = ({ name, endpoint, refetchList }) => {
   const swalWithBootstrapButtons = Swal.mixin({
     customClass: {
       confirmButton: "btn btn-success",
@@ -33,7 +29,9 @@ export const verifyDelete = ({
     // cancelButtonColor: "#E5E5E5",
     preConfirm: async () => {
       try {
-        const res = await http.delete(endpoint);
+        const res = await http.delete(endpoint, {
+          withCredentials: true,
+        });
         return res;
       } catch (error) {
         Swal.showValidationMessage(`
@@ -43,7 +41,6 @@ export const verifyDelete = ({
     },
     allowOutsideClick: () => !Swal.isLoading(),
   }).then((result) => {
-    console.log("🚀 ~ result:", result)
     if (result?.value?.status === 200) {
       swalWithBootstrapButtons.fire({
         title: "Xóa thành công!",

@@ -1,11 +1,10 @@
+const BASE_URL = "/admin";
+
 export const paths = {
-  root: "",
-  users: "",
-  addUser: "/add",
-  viewUser: "/view",
-  updateUser: "/update",
-  // users: "/users",
-  // addUser: "/users/add",
-  // viewUser: "/users/view",
-  // updateUser: "/users/update"
+  root: BASE_URL,
+  Login: BASE_URL + "/login",
+  users: BASE_URL + "/user",
+  addUser: BASE_URL + "/user/add",
+  viewUser: BASE_URL + "/user/view",
+  updateUser: BASE_URL + "/user/update",
 } as const;

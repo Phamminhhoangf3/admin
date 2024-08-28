@@ -127,6 +127,7 @@ const PageCommonList = (props: PageCommonListType) => {
           columns={columns}
           dataSource={handleData(data)}
           loading={loading}
+          scroll={{ x: 1300 }}
         />
       </Card>
     </Space>

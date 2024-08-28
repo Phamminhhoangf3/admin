@@ -101,6 +101,26 @@ const getDetail = async userId => {
   }
 };
 
+const getUser = async info => {
+  try {
+    const result = await GET_DB()
+      .collection(USER_COLLECTION_NAME)
+      .findOne(
+        {
+          userName: info.username,
+          password: info.password,
+          _destroy: false
+        },
+        {
+          projection: { password: 0, repeatPassword: 0, _destroy: 0 }
+        }
+      );
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
 const getAll = async (filters = {}) => {
   try {
     const query = { _destroy: false };
@@ -153,6 +173,7 @@ export const userModel = {
   createNew,
   findOneById,
   getAll,
+  getUser,
   deleteItem,
   getDetail,
   updateItem

@@ -25,6 +25,7 @@ const DetailUser = ({ typePage }: DetailUserType) => {
 
   const { data: dataDetails, loading } = useFetchData({
     endpoint: `${ENDPOINTS.detailUser}/${id}`,
+    disable: typePage === "add",
   });
 
   const listName = [
@@ -64,7 +65,7 @@ const DetailUser = ({ typePage }: DetailUserType) => {
         messageApi.open({
           type: "success",
           content: message,
-          onClose: () => navigate("/"),
+          onClose: () => navigate(paths.users),
         });
       }
       setLoadingSubmit(false);
@@ -86,9 +87,8 @@ const DetailUser = ({ typePage }: DetailUserType) => {
         type={typePage}
         formListItem={getFormListItem(listName, returnPropItem)}
         onSubmit={handleSubmit}
-        pathEdit={`${paths.updateUser}/update?id=${id}`}
-        // pathBack={paths.users}
-        pathBack={"/"}
+        pathEdit={`${paths.updateUser}?id=${id}`}
+        pathBack={paths.users}
       />
       {contextHolder}
     </>
