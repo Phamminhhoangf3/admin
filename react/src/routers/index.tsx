@@ -3,9 +3,9 @@ import Users from "~/pages/users";
 import DetailUser from "~/pages/users/detail";
 import { paths } from "~/constants/path";
 import Login from "~/pages/auth/login";
-import AuthLayout from "~/layout/auth-layout";
 import MainLayout from "~/layout/main-layout";
 import { useAuth } from "~/authProvider";
+import AuthLayout from "~/layout/auth";
 
 const RejectedRoute = () => {
   const { isAuthenticated } = useAuth();

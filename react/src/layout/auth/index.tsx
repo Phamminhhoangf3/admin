@@ -1,3 +1,5 @@
+import styles from "./auth.module.css";
+
 interface IAuthLayoutProps {
   children: React.ReactNode;
 }
@@ -14,15 +16,20 @@ const AuthLayout: React.FC<IAuthLayoutProps> = ({ children }) => {
           <section>
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 md:mt-auto md:h-screen">
               <div
-                className="bg-white rounded-2xl shadow-xl w-full sm:w-96"
+                className={styles.card}
                 style={{
                   maxWidth: "calc(100vw - 5rem)",
                   padding: "2.375rem 1rem 3rem",
                 }}
               >
-                <div className="p-4 space-y-4 md:space-y-6 md:p-5">
-                  {children}
+                <div className={styles.form}>{children}</div>
+                <div className={styles.content}>
+                  <p>
+                    "Your dashboard is your command center, Where insights meet
+                    action, And control drives growth."
+                  </p>
                 </div>
+                <img src="/key-yellow.png" className={styles.imgKey} />
               </div>
             </div>
           </section>
