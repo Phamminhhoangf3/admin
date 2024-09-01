@@ -2,13 +2,12 @@
   "name": "admin-backend",
   "private": true,
   "version": "1.0.0",
-  "type": "module",
   "engines": {
     "node": "18.20.4"
   },
   "scripts": {
     "lint": "eslint src --ext js --report-unused-disable-directives --max-warnings 0",
-    "clean": "rm -rf build && mkdir build",
+    "clean": "rmdir /s build && mkdir build",
     "build-babel": "babel ./src -d ./build/src",
     "build": "npm run clean && npm run build-babel",
     "production": "npm run build && cross-env BUILD_MODE=production node ./build/src/server.js",

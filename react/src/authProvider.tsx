@@ -9,7 +9,9 @@ import { checkAuth } from "./services/apis/auth";
 const AuthContext = createContext({
   isAuthenticated: false,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  loginAction: (formValues: any) => {},
+  loginAction: (formValues: any) => {
+    console.log(formValues);
+  },
   logOut: () => {},
 });
 

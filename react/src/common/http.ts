@@ -2,7 +2,7 @@ import axios, {
   // AxiosError,
   type AxiosInstance,
 } from "axios";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import {
   //  ENDPOINTS,
   ROOT_URL,
@@ -33,10 +33,10 @@ import {
 
 class Http {
   instance: AxiosInstance;
-  private accessToken: string;
+  // private accessToken: string;
 
   constructor() {
-    this.accessToken = Cookies.get("token");
+    // this.accessToken = Cookies.get("token");
     this.instance = axios.create({
       baseURL: `${ROOT_URL}`,
     });

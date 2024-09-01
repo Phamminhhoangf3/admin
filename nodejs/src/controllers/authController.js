@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { StatusCodes } from 'http-status-codes';
+import moment from 'moment';
 import { authService } from '../services/authService.js';
 import { responseHandlingMiddleware } from '../middlewares/responseHandlingMiddleware.js';
 import { env } from '../config/environment.js';
@@ -33,9 +34,9 @@ const login = async (req, res, next) => {
         message: 'Đăng nhập không thành công!'
       });
     } else {
+      const oneDay = moment().add(1, 'day').toDate();
       bcrypt.compare(password, account.password).then(function (result) {
         if (result) {
-          const maxAge = 3 * 60 * 60;
           const token = jwt.sign(
             {
               _id: account._id,
@@ -43,13 +44,15 @@ const login = async (req, res, next) => {
             },
             env.JWT_SECRET,
             {
-              expiresIn: maxAge
+              expiresIn: '23h'
             }
           );
+
           res.cookie('token', token, {
             httpOnly: true,
-            maxAge: maxAge * 1000,
-            secure: true
+            expires: oneDay,
+            secure: true,
+            sameSite: 'none'
           });
           res.status(StatusCodes.OK).json({
             statusCode: StatusCodes.OK,
