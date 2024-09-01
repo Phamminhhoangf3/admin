@@ -4,7 +4,7 @@ import { Fragment } from "react/jsx-runtime";
 import { useAuth } from "~/authProvider";
 
 const Login = () => {
-  const { loginAction } = useAuth();
+  const { loginAction, loading } = useAuth();
   return (
     <Fragment>
       <Form
@@ -39,7 +39,7 @@ const Login = () => {
         </Form.Item> */}
 
         <Form.Item>
-          <Button block type="primary" htmlType="submit">
+          <Button block type="primary" htmlType="submit" loading={loading}>
             Đăng nhập
           </Button>
           <p className="mt-1">

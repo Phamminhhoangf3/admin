@@ -13,10 +13,12 @@ const AuthContext = createContext({
     console.log(formValues);
   },
   logOut: () => {},
+  loading: false,
 });
 
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
@@ -29,12 +31,15 @@ const AuthProvider = ({ children }) => {
   });
 
   const loginAction = (formValues) => {
+    setLoading(true);
     loginMutation.mutate(formValues, {
       onSuccess: () => {
+        setLoading(false);
         setIsAuthenticated(true);
         navigate(paths.users);
       },
       onError: (error) => {
+        setLoading(false);
         console.log({ error });
       },
     });
@@ -51,7 +56,9 @@ const AuthProvider = ({ children }) => {
   }, [setIsAuthenticated, navigate]);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, loginAction, logOut }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, loading, loginAction, logOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
