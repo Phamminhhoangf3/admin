@@ -25,8 +25,9 @@ const AuthLayout: React.FC<IAuthLayoutProps> = ({ children }) => {
                 <div className={styles.form}>{children}</div>
                 <div className={styles.content}>
                   <p>
-                    "Your dashboard is your command center, Where insights meet
-                    action, And control drives growth."
+                    "Bảng điều khiển là trung tâm chỉ huy của bạn, Nơi thông tin
+                    chi tiết đáp ứng hành động và khả năng kiểm soát thúc đẩy
+                    tăng trưởng."
                   </p>
                 </div>
                 <img src="/key-yellow.png" className={styles.imgKey} />
