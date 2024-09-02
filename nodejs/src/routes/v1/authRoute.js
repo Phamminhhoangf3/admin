@@ -8,6 +8,7 @@ const Router = express.Router();
 
 Router.route('/register').post(authValidation.register, authController.register);
 Router.route('/login').post(authValidation.login, authController.login);
+Router.route('/logout').get(authController.logout);
 Router.route('/checkAuth').get(userAuth, (req, res) =>
   res.status(StatusCodes.OK).json({ statusCode: StatusCodes.OK, message: 'Xác thực thành công!' })
 );

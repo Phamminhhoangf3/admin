@@ -72,7 +72,27 @@ const login = async (req, res, next) => {
   }
 };
 
+const logout = async (req, res, next) => {
+  try {
+    return res
+      .clearCookie('token', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none'
+      })
+      .status(StatusCodes.OK)
+      .json({
+        statusCode: StatusCodes.OK,
+        message: 'Đăng xuất thành công!'
+      });
+  } catch (error) {
+    console.error('Logout error:', error);
+    next(error);
+  }
+};
+
 export const authController = {
   register,
-  login
+  login,
+  logout
 };

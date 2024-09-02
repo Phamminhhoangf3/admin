@@ -11,3 +11,13 @@ export const checkAuth = async () => {
     console.log(error);
   }
 };
+
+export const logout = async () => {
+  try {
+    return await http.get(ENDPOINTS.logout, {
+      withCredentials: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};

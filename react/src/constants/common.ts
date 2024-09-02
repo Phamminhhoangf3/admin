@@ -17,8 +17,8 @@ export const ENDPOINTS = Object.freeze({
   updateUser: `${ROOT_URL}/v1/users/update`,
   detailUser: `${ROOT_URL}/v1/users/detail`,
   login: `${ROOT_URL}/v1/auth/login`,
+  logout: `${ROOT_URL}/v1/auth/logout`,
   checkAuth: `${ROOT_URL}/v1/auth/checkAuth`,
-  LOGOUT: "api/admin/auth/logout",
   TWO_FACTOR_AUTH: "api/auth/twofactorlogin",
 });
 
