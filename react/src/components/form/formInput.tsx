@@ -5,15 +5,25 @@ interface FormInputType extends InputProps {
   name: string;
   form: any;
   label: string;
+  asterisk?: boolean;
 }
 
-const FormInput = ({ name, form, label, ...props }: FormInputType) => {
+const FormInput = ({
+  name,
+  form,
+  label,
+  asterisk,
+  ...props
+}: FormInputType) => {
   const getChangeHandlerWithEvent = (name) => (event) =>
     form.setValue(name, event.target.value);
 
   return (
     <div>
-      <Typography.Text>{label}</Typography.Text>
+      <Typography.Text>
+        {asterisk && <Typography.Text color="red">*</Typography.Text>}
+        {label}
+      </Typography.Text>
       <Input
         {...props}
         onChange={getChangeHandlerWithEvent(name)}

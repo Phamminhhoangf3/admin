@@ -1,10 +1,10 @@
 import express from 'express';
 import memberController from '../../../controllers/memberController';
-// import memberValidation from '../../../validations/memberValidation';
+import memberValidation from '../../../validations/memberValidation';
 
 const Router = express.Router();
 Router.post('/', memberController.getList);
-// Router.post('/create', memberValidation.createNew, memberController.createNew);
+Router.post('/add', memberValidation.createNew, memberController.createNew);
+Router.get('/detail/:id', memberController.getDetail);
 
-// app.use('/api/members', Router);
 export const memberAdminRoute = Router;

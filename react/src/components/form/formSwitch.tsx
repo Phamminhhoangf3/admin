@@ -1,4 +1,4 @@
-import { Switch, SwitchProps, Typography } from "antd";
+import { Switch, SwitchProps } from "antd";
 
 interface FormSwitchType extends SwitchProps {
   name: string;
@@ -11,16 +11,14 @@ const FormSwitch = ({ name, form, label, ...props }: FormSwitchType) => {
     form.setValue(name, checked);
 
   return (
-    <div>
-      <Typography.Title level={5} style={{ fontWeight: 400 }}>
-        {label}
-      </Typography.Title>
+    <>
+      <div>{label}</div>
       <Switch
         {...props}
         onChange={getChangeHandlerWithEvent(name)}
         value={form.watch(name)}
       />
-    </div>
+    </>
   );
 };
 

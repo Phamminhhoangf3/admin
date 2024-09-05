@@ -11,12 +11,10 @@ const findOneById = async id =>
     .findOne({ _id: new ObjectId(id) });
 
 const Member = function (member) {
-  this.title = member.title;
   this.name = member.name;
   this.fromDob = member.fromDob;
   this.toDob = member.toDob;
   this.familyId = member.familyId;
-  this.dad = member.dad;
   this.image = member.image;
   this.gender = member.gender;
   this.status = member.status;
@@ -89,8 +87,8 @@ Member.findAll = async (filters, result) => {
 
 Member.findOneById = async (id, result) => {
   try {
-    const result = findOneById(id);
-    result(null, result);
+    const data = await findOneById(id);
+    result(null, data);
   } catch (error) {
     result(error, null);
   }

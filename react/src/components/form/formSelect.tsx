@@ -4,7 +4,7 @@ import { SelectProps } from "antd/lib";
 interface FormSelectType extends SelectProps {
   _name: string;
   form: any;
-  defaultValue: any;
+  defaultValue?: any;
   options: any;
   label: string;
 }
@@ -12,7 +12,7 @@ interface FormSelectType extends SelectProps {
 const FormSelect = ({
   _name,
   form,
-  defaultValue,
+  defaultValue = null,
   options,
   label,
   ...rest
@@ -27,12 +27,12 @@ const FormSelect = ({
         showSearch
         placeholder="Select a person"
         optionFilterProp="label"
-        onChange={getChangeHandlerWithEvent(_name)}
-        value={form.watch(_name)}
         options={options}
         defaultValue={defaultValue}
         style={{ width: "100%" }}
         {...rest}
+        onChange={getChangeHandlerWithEvent(_name)}
+        value={form.watch(_name)}
       />
     </div>
   );

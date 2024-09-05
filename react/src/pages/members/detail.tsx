@@ -4,53 +4,51 @@ import { useNavigate, useParams } from "react-router-dom";
 import FormPage from "~/components/form-page";
 import {
   getFormListItem,
-  KeyFormItemType,
   PropsItemType,
 } from "~/components/form-page/formItem";
 import { ENDPOINTS } from "~/constants/common";
 import { paths } from "~/constants/path";
 import { useFetchData } from "~/hook/useFetchData";
-import { createUser, updateUser } from "~/services/apis/users";
+import { createMember } from "~/services/apis/members";
+import { updateUser } from "~/services/apis/users";
 import { TypePage } from "~/types";
 
-type DetailUserType = {
+type DetailMemberType = {
   typePage: TypePage;
 };
 
-const DetailUser = ({ typePage }: DetailUserType) => {
+const DetailMember = ({ typePage }: DetailMemberType) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
   const { data: dataDetails, loading } = useFetchData({
-    endpoint: `${ENDPOINTS.detailUser}/${id}`,
+    endpoint: `${ENDPOINTS.detailMember}/${id}`,
     disable: typePage === "add",
   });
 
   const listName = [
-    "username",
-    "level",
-    "password",
-    "repeatPassword",
+    "name",
+    "fromDob",
+    "toDob",
+    "gender",
+    "image",
+    "familyId",
     "status",
   ];
 
-  const returnPropItem = (name: KeyFormItemType) => {
-    const props: PropsItemType = { name };
-    switch (name) {
-      case "status":
-        props.name = "active";
-        break;
-    }
+  const returnPropItem = () => {
+    const props: PropsItemType = {};
     return props;
   };
 
   const handleSubmit = async (data) => {
+    if (data?.familyId === null) delete data.familyId;
     try {
       setLoadingSubmit(true);
       let res;
-      if (typePage === "add") res = await createUser(data);
+      if (typePage === "add") res = await createMember(data);
       if (typePage === "update" && id) {
         const dataUpdate = { ...data };
         delete dataUpdate.password;
@@ -65,7 +63,7 @@ const DetailUser = ({ typePage }: DetailUserType) => {
         messageApi.open({
           type: "success",
           content: message,
-          onClose: () => navigate(paths.users),
+          onClose: () => navigate(paths.members),
         });
       }
       setLoadingSubmit(false);
@@ -87,12 +85,12 @@ const DetailUser = ({ typePage }: DetailUserType) => {
         type={typePage}
         formListItem={getFormListItem(listName, returnPropItem)}
         onSubmit={handleSubmit}
-        pathEdit={`${paths.updateUser}?id=${id}`}
-        pathBack={paths.users}
+        pathEdit={`${paths.updateMember}?id=${id}`}
+        pathBack={paths.members}
       />
       {contextHolder}
     </>
   );
 };
 
-export default DetailUser;
+export default DetailMember;

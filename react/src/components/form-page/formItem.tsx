@@ -3,6 +3,9 @@ import FormInput from "../form/formInput";
 import FormInputNumber from "../form/formInputNumber";
 import FormPassword from "../form/formPassword";
 import FormSwitch from "../form/formSwitch";
+import FormDatePicker from "../form/formDatePicker";
+import FormSelect from "../form/formSelect";
+import { genderOptions } from "~/common/options-select";
 
 export type PropsItemType = {
   name?: string;
@@ -12,7 +15,7 @@ export type PropsItemType = {
   suffix?: string;
   disable?: boolean;
   handleValue?: (value: any) => void;
-  asterisk?: boolean;
+  asterisk?: boolean | undefined;
   handleChange?: (value: any, form: any) => void;
   handleClick?: (form: any) => void;
   disabled?: boolean;
@@ -21,9 +24,7 @@ export type PropsItemType = {
 export type FormListItemType = {
   key: string;
   name: string;
-  asterisk: boolean;
   col: number;
-  colSm: number;
   value: any;
   control: (props: { form: any; type: string }) => JSX.Element;
 };
@@ -35,7 +36,13 @@ export type KeyFormItemType =
   | "level"
   | "status"
   | "password"
-  | "repeatPassword";
+  | "repeatPassword"
+  | "name"
+  | "fromDob"
+  | "toDob"
+  | "gender"
+  | "image"
+  | "familyId";
 
 export type FormItemsType = {
   [key in KeyFormItemType]?: ValueType;
@@ -50,9 +57,7 @@ const formItems: FormItemsType = {
   username: ({ name = "username" }) => ({
     key: name,
     name,
-    asterisk: true,
-    col: 12,
-    colSm: 4,
+    col: 6,
     value: "",
     control: ({ form, type }) => (
       <FormInput
@@ -69,12 +74,122 @@ const formItems: FormItemsType = {
       />
     ),
   }),
+  image: ({ name = "image" }) => ({
+    key: name,
+    name,
+    col: 6,
+    value: "",
+    control: ({ form, type }) => (
+      <FormInput
+        name={name}
+        form={form}
+        defaultValue=""
+        label="Hình"
+        placeholder="Nhập đường dẫn hình"
+        disabled={type === "detail"}
+        allowClear
+        {...form.register(name, {
+          required: "Vui lòng nhập đường dẫn hình!",
+        })}
+      />
+    ),
+  }),
+  familyId: ({ name = "familyId" }) => ({
+    key: name,
+    name,
+    col: 6,
+    value: null,
+    control: ({ form, type }) => (
+      <FormSelect
+        _name={name}
+        disabled={type === "detail"}
+        form={form}
+        options={[]}
+        label="Gia đình"
+        allowClear
+        placeholder="Chọn gia đình"
+      />
+    ),
+  }),
+  name: ({ name = "name", asterisk }) => ({
+    key: name,
+    name,
+    col: 6,
+    value: "",
+    control: ({ form, type }) => (
+      <FormInput
+        name={name}
+        form={form}
+        defaultValue=""
+        label="Họ và tên:"
+        placeholder="Nhập họ và tên"
+        disabled={type === "detail"}
+        allowClear
+        asterisk={asterisk}
+        {...form.register(name, {
+          required: "Vui lòng nhập họ và tên!",
+        })}
+      />
+    ),
+  }),
+  fromDob: ({ name = "fromDob" }) => ({
+    key: name,
+    name,
+    col: 6,
+    value: "",
+    control: ({ form, type }) => (
+      <FormDatePicker
+        disabled={type === "detail"}
+        label="Ngày sinh"
+        form={form}
+        name={name}
+        {...form.register(name, {
+          required: "Vui lòng chọn ngày sinh!",
+        })}
+      />
+    ),
+  }),
+  toDob: ({ name = "toDob" }) => ({
+    key: name,
+    name,
+    col: 6,
+    value: "",
+    control: ({ form, type }) => (
+      <FormDatePicker
+        disabled={type === "detail"}
+        label="Ngày mất"
+        form={form}
+        name={name}
+        {...form.register(name, {
+          required: "Vui lòng chọn ngày mất!",
+        })}
+      />
+    ),
+  }),
+  gender: ({ name = "gender" }) => ({
+    key: name,
+    name,
+    col: 6,
+    value: null,
+    control: ({ form, type }) => (
+      <FormSelect
+        _name={name}
+        disabled={type === "detail"}
+        form={form}
+        options={genderOptions}
+        label="Giới tính"
+        allowClear
+        placeholder="Chọn giới tính"
+        {...form.register(name, {
+          required: "Vui lòng chọn giới tính!",
+        })}
+      />
+    ),
+  }),
   level: ({ name = "level" }) => ({
     key: name,
     name,
-    asterisk: true,
-    col: 12,
-    colSm: 4,
+    col: 6,
     value: "",
     control: ({ form, type }) => (
       <FormInputNumber
@@ -93,13 +208,11 @@ const formItems: FormItemsType = {
       />
     ),
   }),
-  status: ({ name = "active" }) => ({
+  status: ({ name = "status" }) => ({
     key: name,
     name,
-    asterisk: true,
-    col: 12,
-    colSm: 4,
-    value: true,
+    col: 6,
+    value: false,
     control: ({ form, type }) => (
       <FormSwitch
         name={name}
@@ -113,9 +226,7 @@ const formItems: FormItemsType = {
   password: ({ name = "password" }) => ({
     key: name,
     name,
-    asterisk: true,
-    col: 12,
-    colSm: 4,
+    col: 6,
     value: "",
     control: ({ form, type }) => {
       const required =
@@ -144,9 +255,7 @@ const formItems: FormItemsType = {
   repeatPassword: ({ name = "repeatPassword" }) => ({
     key: name,
     name,
-    asterisk: true,
-    col: 12,
-    colSm: 4,
+    col: 6,
     value: "",
     control: ({ form, type }) => {
       const required =

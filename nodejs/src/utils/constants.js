@@ -3,6 +3,7 @@ const WHITELIST_DOMAINS = ['http://localhost:5173', 'https://admin-front-end-six
 const TAG_USER = {
   SON: 'son',
   WIFE: 'wife',
+  EX_WIFE: 'ex-wife',
   DAUGHTER: 'daughter',
   HUSBAND: 'husband',
   EMPTY: ''

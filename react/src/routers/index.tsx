@@ -7,6 +7,7 @@ import { useAuth } from "~/authProvider";
 import AuthLayout from "~/layout/auth";
 import DetailUser from "~/pages/members/detail";
 import Members from "~/pages/members";
+import DetailMember from "~/pages/members/detail";
 
 const RejectedRoute = () => {
   const { isAuthenticated } = useAuth();
@@ -45,6 +46,8 @@ export default function RouteElements() {
         </Route>
         <Route path="members">
           <Route index element={<Members />} />
+          <Route path="add" element={<DetailMember typePage="add" />} />
+          <Route path="view/:id" element={<DetailMember typePage="detail" />} />
         </Route>
       </Route>
     </Routes>

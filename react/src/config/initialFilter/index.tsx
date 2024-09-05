@@ -3,7 +3,6 @@ import utc from "dayjs/plugin/utc";
 import { genderOptions, statusOptions } from "~/common/options-select";
 import { FormInput, FormRangeDate, FormSelect } from "~/components/form";
 import FormDatePicker from "~/components/form/formDatePicker";
-import CommonDate from "~/utils/common-date";
 
 dayjs.extend(utc);
 export type PropsInitialFilters = {
@@ -107,34 +106,12 @@ export const initialFilters: InitialFiltersType<IFValueType> = {
   fromDob: ({ name = "fromDob", label = "Ngày sinh" }) => ({
     key: name,
     col: 6,
-    control: ({ setValue, watch }) => (
-      <FormDatePicker
-        label={label}
-        onChange={(_, dateString) => {
-          setValue(
-            name,
-            CommonDate.formatStringToDateSubmit(dateString as string)
-          );
-        }}
-        value={watch(name) ? dayjs(watch(name)) : null}
-      />
-    ),
+    control: (form) => <FormDatePicker name={name} label={label} form={form} />,
   }),
   toDob: ({ name = "toDob", label = "Ngày mất" }) => ({
     key: name,
     col: 6,
-    control: ({ setValue, watch }) => (
-      <FormDatePicker
-        label={label}
-        onChange={(_, dateString) => {
-          setValue(
-            name,
-            CommonDate.formatStringToDateSubmit(dateString as string)
-          );
-        }}
-        value={watch(name) ? dayjs(watch(name)) : null}
-      />
-    ),
+    control: (form) => <FormDatePicker name={name} label={label} form={form} />,
   }),
 };
 

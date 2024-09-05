@@ -5,3 +5,8 @@ export enum TAG {
   SON = "son",
   DAUGHTER = "daughter",
 }
+
+export enum GENDER {
+  MALE = "male",
+  FEMALE = "female",
+}

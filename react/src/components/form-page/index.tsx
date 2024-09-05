@@ -3,7 +3,7 @@ import {
   ReloadOutlined,
   SaveOutlined,
 } from "@ant-design/icons";
-import { Button, Card, Col, Flex, Row, Space, Typography } from "antd";
+import { Button, Card, Col, Row, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -76,20 +76,20 @@ const FormPage = (props: FormPageType) => {
     <Card
       className="w-full"
       title={
-        <Typography
-          className="cursor-pointer"
-          onClick={() => {
-            navigate(pathBack);
-          }}
-        >
-          <ArrowLeftOutlined className="mr-2" />
+        <Typography className="cursor-pointer">
+          <ArrowLeftOutlined
+            className="mr-2 hover:text-blue-600"
+            onClick={() => {
+              navigate(pathBack);
+            }}
+          />
           {title}
         </Typography>
       }
     >
       <LoadingContainer loading={loading}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Row gutter={16}>
+          <Row gutter={[16, 10]}>
             {formListItem?.map((item) => (
               <Col md={6} sm={6} xs={12} key={item.key}>
                 {item.control({ form, type })}
@@ -102,7 +102,7 @@ const FormPage = (props: FormPageType) => {
             ))}
           </Row>
           {type !== "detail" && (
-            <Flex justify="flex-end">
+            <div className="flex justify-end mt-5">
               <Space>
                 <Button
                   type="primary"
@@ -115,7 +115,7 @@ const FormPage = (props: FormPageType) => {
                   Đặt lại
                 </Button>
               </Space>
-            </Flex>
+            </div>
           )}
         </form>
       </LoadingContainer>
