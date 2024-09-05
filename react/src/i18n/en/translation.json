@@ -1,5 +1,12 @@
 {
   "home": "Trang chủ",
   "users": "Người dùng",
-  "add": "Thêm"
+  "add": "Thêm",
+  "male": "Nam",
+  "female": "Nữ",
+  "husband": "Chồng",
+  "wife": "Vợ",
+  "ex-wife": "Vợ cũ",
+  "son": "Con trai",
+  "daughter": "Con gái"
 }

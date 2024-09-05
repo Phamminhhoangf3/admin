@@ -31,7 +31,7 @@ export type FormListItemType = {
 type ValueType = (props: PropsItemType) => FormListItemType;
 
 export type KeyFormItemType =
-  | "userName"
+  | "username"
   | "level"
   | "status"
   | "password"
@@ -47,7 +47,7 @@ export const getFormListItem = (listName, returnProps: ReturnPropsType) =>
   listName.map((name) => formItems?.[name]?.(returnProps(name)));
 
 const formItems: FormItemsType = {
-  userName: ({ name = "userName" }) => ({
+  username: ({ name = "username" }) => ({
     key: name,
     name,
     asterisk: true,

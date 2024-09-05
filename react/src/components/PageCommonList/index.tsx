@@ -3,7 +3,7 @@ import {
   ReloadOutlined,
   SearchOutlined,
 } from "@ant-design/icons";
-import { Button, Card, Col, Flex, Space, Table } from "antd";
+import { Button, Card, Col, Row, Space, Table } from "antd";
 import { useForm } from "react-hook-form";
 import { useFetchData } from "~/hook/useFetchData";
 import { PageCommonListType } from "./pageCommonList.type";
@@ -57,7 +57,7 @@ const PageCommonList = (props: PageCommonListType) => {
   const { handleSubmit, reset } = form;
 
   const onSubmit = (data) => {
-    const requestParamsNew = { ...data, page: 1 };
+    const requestParamsNew = { ...data };
     updateParamsQuery(handleDataSubmit(requestParamsNew));
   };
 
@@ -92,13 +92,13 @@ const PageCommonList = (props: PageCommonListType) => {
         }
       >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Flex wrap gap="middle">
+          <Row gutter={[10, 10]}>
             {initialFilters.map((item) => (
               <Col span={item.col} key={item.key}>
                 {item.control(form)}
               </Col>
             ))}
-          </Flex>
+          </Row>
           <div style={{ textAlign: "right", marginTop: 12 }}>
             <Space size="small">
               <Button

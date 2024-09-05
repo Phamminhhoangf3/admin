@@ -4,11 +4,10 @@ import { ObjectId } from 'mongodb';
 import { GET_DB } from '../config/mongodb.js';
 import { regexPassword } from '../config/regex.js';
 
-const USER_COLLECTION_NAME = 'users';
+const USER_COLLECTION_NAME = 'account';
 const USER_COLLECTION_SCHEMA = Joi.object({
-  userName: Joi.string().min(3).max(30).required(),
-  level: Joi.number().min(1).max(7).required(),
-  active: Joi.boolean().required(),
+  username: Joi.string().min(3).max(30).required(),
+  status: Joi.boolean().required(),
   password: Joi.string().pattern(new RegExp(regexPassword)),
   repeatPassword: Joi.ref('password'),
   createdAt: Joi.date().timestamp('javascript').default(Date.now),
@@ -17,9 +16,9 @@ const USER_COLLECTION_SCHEMA = Joi.object({
 }).with('password', 'repeatPassword');
 
 const USER_UPDATE_SCHEMA = Joi.object({
-  userName: Joi.string().min(3).max(30),
+  username: Joi.string().min(3).max(30),
   level: Joi.number().min(1).max(7),
-  active: Joi.boolean(),
+  status: Joi.boolean(),
   updatedAt: Joi.date().timestamp('javascript').default(Date.now),
   _destroy: Joi.boolean().default(false)
 });
@@ -107,7 +106,7 @@ const getUser = async info => {
       .collection(USER_COLLECTION_NAME)
       .findOne(
         {
-          userName: info.username,
+          username: info.username,
           password: info.password,
           _destroy: false
         },
@@ -124,8 +123,8 @@ const getUser = async info => {
 const getAll = async (filters = {}) => {
   try {
     const query = { _destroy: false };
-    if (filters.keywords) query.userName = { $regex: filters.keywords, $options: 'i' };
-    if (filters.status !== undefined) query.active = filters.status;
+    if (filters.keywords) query.username = { $regex: filters.keywords, $options: 'i' };
+    if (filters.status !== undefined) query.status = filters.status;
     if (filters.fromDate && filters.toDate) {
       query.createdAt = {};
       if (filters.fromDate)

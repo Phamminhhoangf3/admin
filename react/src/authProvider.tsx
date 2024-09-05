@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import { useContext, createContext, useState, useEffect } from "react";
+import { useContext, createContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "./constants/common";
 import http from "./common/http";
 import { paths } from "./constants/path";
-import { checkAuth } from "./services/apis/auth";
 
 const AuthContext = createContext({
   isAuthenticated: false,
@@ -47,17 +46,14 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {};
 
-  useEffect(() => {
-    const checkAndRedirect = async () => {
-      const res = await checkAuth();
-      setIsAuthenticated(Boolean(res?.status === 200));
-    };
-    checkAndRedirect();
-  }, [setIsAuthenticated, navigate]);
-
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, loading, loginAction, logOut }}
+      value={{
+        isAuthenticated,
+        loading,
+        loginAction,
+        logOut,
+      }}
     >
       {children}
     </AuthContext.Provider>

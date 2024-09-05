@@ -1,6 +1,19 @@
+import dayjs from "dayjs";
 import moment from "moment";
 
 const CommonDate = {
+  formatStringToDateSubmit: (value: string) => {
+    if (!value) return null;
+    return dayjs(value).utc().format();
+  },
+  formatDate: (date) => {
+    if (!date) {
+      return "";
+    }
+    return moment(date).utcOffset(7).format("DD/MM/yyyy");
+    /* ========== format --> 08/02/2022  =========== */
+  },
+
   formatTimeHourMinute: (date) => {
     // return format hh:mm
     if (!date) {
@@ -12,14 +25,6 @@ const CommonDate = {
     const minute = ("0" + date.getMinutes()).slice(-2);
 
     return hour + ":" + minute;
-  },
-
-  formatDate: (date) => {
-    if (!date) {
-      return "";
-    }
-    return moment(date).format("DD/MM/yyyy");
-    /* ========== format --> 08/02/2022  =========== */
   },
   formatDateWithF: (date, format) => {
     if (!date) {

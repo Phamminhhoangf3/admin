@@ -1,5 +1,5 @@
 import { paths } from "~/constants/path";
-import { HomeOutlined } from "@ant-design/icons";
+import { HomeOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 
 type dataMenuType = {
   label: string;
@@ -9,13 +9,18 @@ type dataMenuType = {
 
 export const dataMenu: dataMenuType[] = [
   {
-    label: "Người dùng",
+    label: "Trang chủ",
     icon: <HomeOutlined />,
-    url: paths.users.substring(1),
+    url: paths.home,
   },
-  // {
-  //   label: "Người dùng",
-  //   icon: <UserOutlined />,
-  //   url: paths.users.substring(1),
-  // },
+  {
+    label: "Tài khoản",
+    icon: <UserOutlined />,
+    url: paths.users,
+  },
+  {
+    label: "Thành viên",
+    icon: <TeamOutlined />,
+    url: paths.members,
+  },
 ];

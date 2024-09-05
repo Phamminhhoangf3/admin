@@ -3,6 +3,7 @@ import locale from "antd/es/date-picker/locale/vi_VN";
 import { RangePickerProps } from "antd/es/date-picker";
 import dayjs from "dayjs";
 import type { Dayjs } from "dayjs";
+import CommonDate from "~/utils/common-date";
 
 interface FormRangeDateType {
   name: string;
@@ -18,14 +19,17 @@ const FormRangeDate = (props: FormRangeDateType) => {
   const { name, names, form, defaultValue, label } = props;
   const { setValue, watch } = form;
 
-  const handleChange = (
-    _,
-    dateStrings
-  ) => {
+  const handleChange = (_, dateStrings) => {
     const [startName, endName] = names;
     if (dateStrings?.[0] && dateStrings?.[1]) {
-      setValue(startName, dateStrings[0]);
-      setValue(endName, dateStrings[1]);
+      setValue(
+        startName,
+        CommonDate.formatStringToDateSubmit(dateStrings[0] as string)
+      );
+      setValue(
+        endName,
+        CommonDate.formatStringToDateSubmit(dateStrings[1] as string)
+      );
       setValue(name, [dateStrings[0], dateStrings[1]]);
     }
   };
@@ -36,9 +40,7 @@ const FormRangeDate = (props: FormRangeDateType) => {
 
   return (
     <div>
-      <Typography.Title level={5} style={{ fontWeight: 400 }}>
-        {label}
-      </Typography.Title>
+      <Typography.Text>{label}</Typography.Text>
       <RangePicker
         locale={locale}
         defaultValue={defaultValue}

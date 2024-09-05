@@ -2,7 +2,7 @@ import http from "~/common/http";
 import { ENDPOINTS } from "~/constants/common";
 
 type CreateUserType = {
-  userName: string;
+  username: string;
   level: number;
   active: boolean;
   password: string;

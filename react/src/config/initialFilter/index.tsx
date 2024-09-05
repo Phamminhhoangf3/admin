@@ -1,6 +1,11 @@
-import { statusOptions } from "~/common/options-select";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import { genderOptions, statusOptions } from "~/common/options-select";
 import { FormInput, FormRangeDate, FormSelect } from "~/components/form";
+import FormDatePicker from "~/components/form/formDatePicker";
+import CommonDate from "~/utils/common-date";
 
+dayjs.extend(utc);
 export type PropsInitialFilters = {
   name?: string;
   names?: [string, string];
@@ -18,14 +23,17 @@ export type PropsInitialFilters = {
 
 export type FilterType = {
   key: string;
-  name: string;
   col: number;
-  colSm: number;
-  value: string;
   control: (props: any) => JSX.Element;
 };
 
-export type KeyInitialFilters = "keywords" | "createdDate" | "status";
+export type KeyInitialFilters =
+  | "keywords"
+  | "createdDate"
+  | "status"
+  | "gender"
+  | "fromDob"
+  | "toDob";
 
 export type IFValueType = (props: PropsInitialFilters) => FilterType;
 
@@ -36,10 +44,7 @@ export type InitialFiltersType<T> = {
 export const initialFilters: InitialFiltersType<IFValueType> = {
   keywords: ({ name = "keywords", label = "Tìm kiếm", placeholder }) => ({
     key: name,
-    name: name,
     col: 6,
-    colSm: 3,
-    value: "",
     control: (form) => (
       <FormInput
         name={name}
@@ -57,10 +62,7 @@ export const initialFilters: InitialFiltersType<IFValueType> = {
     defaultValue,
   }) => ({
     key: "createdDate",
-    name: "createdDate",
     col: 6,
-    colSm: 3,
-    value: "",
     control: (form) => (
       <FormRangeDate
         names={names}
@@ -73,10 +75,7 @@ export const initialFilters: InitialFiltersType<IFValueType> = {
   }),
   status: ({ name = "status", label = "Trạng thái", defaultValue = null }) => ({
     key: name,
-    name: name,
     col: 6,
-    colSm: 3,
-    value: "",
     control: (form) => (
       <FormSelect
         _name={name}
@@ -86,6 +85,54 @@ export const initialFilters: InitialFiltersType<IFValueType> = {
         label={label}
         allowClear
         placeholder="Chọn trạng thái"
+      />
+    ),
+  }),
+  gender: ({ name = "gender", label = "Giới tính", defaultValue = null }) => ({
+    key: name,
+    col: 6,
+    colSm: 3,
+    control: (form) => (
+      <FormSelect
+        _name={name}
+        defaultValue={defaultValue}
+        form={form}
+        options={genderOptions}
+        label={label}
+        allowClear
+        placeholder="Chọn giới tính"
+      />
+    ),
+  }),
+  fromDob: ({ name = "fromDob", label = "Ngày sinh" }) => ({
+    key: name,
+    col: 6,
+    control: ({ setValue, watch }) => (
+      <FormDatePicker
+        label={label}
+        onChange={(_, dateString) => {
+          setValue(
+            name,
+            CommonDate.formatStringToDateSubmit(dateString as string)
+          );
+        }}
+        value={watch(name) ? dayjs(watch(name)) : null}
+      />
+    ),
+  }),
+  toDob: ({ name = "toDob", label = "Ngày mất" }) => ({
+    key: name,
+    col: 6,
+    control: ({ setValue, watch }) => (
+      <FormDatePicker
+        label={label}
+        onChange={(_, dateString) => {
+          setValue(
+            name,
+            CommonDate.formatStringToDateSubmit(dateString as string)
+          );
+        }}
+        value={watch(name) ? dayjs(watch(name)) : null}
       />
     ),
   }),

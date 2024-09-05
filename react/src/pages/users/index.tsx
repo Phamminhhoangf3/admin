@@ -13,7 +13,7 @@ import { tagActive } from "~/utils/tags";
 
 type UserRecordType = {
   _id: string;
-  userName: string;
+  username: string;
   createdAt: string;
   updatedAt: string;
 };
@@ -22,19 +22,13 @@ const Users = () => {
   const columns: ColumnType<UserRecordType>[] = [
     {
       title: "Tên đăng nhập",
-      dataIndex: "userName",
-      key: "userName",
-    },
-    {
-      title: "Cấp bậc",
-      dataIndex: "level",
-      key: "level",
-      align: "center",
+      dataIndex: "username",
+      key: "username",
     },
     {
       title: "Trạng thái",
-      dataIndex: "active",
-      key: "active",
+      dataIndex: "status",
+      key: "status",
       align: "center",
       render: (text: boolean) => tagActive(text),
     },
@@ -86,7 +80,7 @@ const Users = () => {
       {
         name: "delete" as NameAction,
         url: (id: string) => `${ENDPOINTS.deleteUser}/${id}`,
-        getTitle: (item: any) => item?.userName,
+        getTitle: (item: any) => item?.username,
         roles: [],
       },
     ],

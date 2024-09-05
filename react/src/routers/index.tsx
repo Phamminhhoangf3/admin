@@ -1,11 +1,12 @@
-import { Navigate, Outlet, useRoutes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Users from "~/pages/users";
-import DetailUser from "~/pages/users/detail";
 import { paths } from "~/constants/path";
 import Login from "~/pages/auth/login";
 import MainLayout from "~/layout/main-layout";
 import { useAuth } from "~/authProvider";
 import AuthLayout from "~/layout/auth";
+import DetailUser from "~/pages/members/detail";
+import Members from "~/pages/members";
 
 const RejectedRoute = () => {
   const { isAuthenticated } = useAuth();
@@ -19,50 +20,33 @@ const RejectedRoute = () => {
   );
 };
 
-const Root = ({ redirectPath = paths.Login }) => {
-  return <Navigate to={redirectPath} replace />;
+const Root = () => {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) {
+    return <Navigate to={paths.users} replace />;
+  } else {
+    return <Navigate to={paths.Login} replace />;
+  }
 };
 
 export default function RouteElements() {
-  const element = useRoutes([
-    {
-      path: "",
-      element: <RejectedRoute />,
-      children: [
-        {
-          path: "/",
-          element: <Root />,
-        },
-        {
-          path: paths.Login,
-          element: <Login />,
-        },
-      ],
-    },
-    {
-      path: paths.users,
-      element: <MainLayout />,
-      children: [
-        {
-          path: "",
-          children: [
-            { path: "", element: <Users /> },
-            {
-              path: "add",
-              element: <DetailUser typePage="add" />,
-            },
-            {
-              path: "view/:id",
-              element: <DetailUser typePage="detail" />,
-            },
-            {
-              path: "update/:id",
-              element: <DetailUser typePage="update" />,
-            },
-          ],
-        },
-      ],
-    },
-  ]);
-  return element;
+  return (
+    <Routes>
+      <Route path="/" element={<Root />} />
+      <Route path="/auth" element={<RejectedRoute />}>
+        <Route path="login" element={<Login />} />
+      </Route>
+      <Route path="/admin" element={<MainLayout />}>
+        <Route path="user">
+          <Route index element={<Users />} />
+          <Route path="add" element={<DetailUser typePage="add" />} />
+          <Route path="view/:id" element={<DetailUser typePage="detail" />} />
+          <Route path="update/:id" element={<DetailUser typePage="update" />} />
+        </Route>
+        <Route path="members">
+          <Route index element={<Members />} />
+        </Route>
+      </Route>
+    </Routes>
+  );
 }

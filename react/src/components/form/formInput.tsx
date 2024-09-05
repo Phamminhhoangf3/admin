@@ -13,9 +13,7 @@ const FormInput = ({ name, form, label, ...props }: FormInputType) => {
 
   return (
     <div>
-      <Typography.Title level={5} style={{ fontWeight: 400 }}>
-        {label}
-      </Typography.Title>
+      <Typography.Text>{label}</Typography.Text>
       <Input
         {...props}
         onChange={getChangeHandlerWithEvent(name)}

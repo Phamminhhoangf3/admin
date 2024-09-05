@@ -1,20 +1,12 @@
 import { Layout } from "antd";
-import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "~/authProvider";
+import { Outlet } from "react-router-dom";
 import AntdBreadcrumb from "~/components/breadcrumnd";
 import HeaderLayout from "~/components/layout/header";
 import NavbarNested from "~/components/navbar/nav-bar";
-import { paths } from "~/constants/path";
 
 const { Content, Footer } = Layout;
 
-const MainLayout = ({ redirectPath = paths.Login }) => {
-  const { isAuthenticated } = useAuth();
-
-  if (!isAuthenticated) {
-    return <Navigate to={redirectPath} replace />;
-  }
-
+const MainLayout = () => {
   return (
     <Layout style={{ minHeight: "100vh", minWidth: "100vw" }}>
       <NavbarNested />

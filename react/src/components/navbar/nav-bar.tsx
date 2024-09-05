@@ -1,13 +1,27 @@
 import { Menu } from "antd";
+import type { MenuProps } from "antd";
 import { useState } from "react";
 import { Layout } from "antd";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { dataMenu } from "./dataMenu";
 
 const { Sider } = Layout;
+type MenuItem = Required<MenuProps>["items"][number];
 
 const NavbarNested: React.FC = () => {
+  const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
+
+  const items: MenuItem[] = dataMenu.map((item) => ({
+    key: item.url,
+    label: item.label,
+    icon: item.icon,
+  }));
+
+  const onClick = ({ key }) => {
+    navigate(key);
+  };
+
   return (
     <Sider
       collapsible
@@ -18,17 +32,10 @@ const NavbarNested: React.FC = () => {
       <Menu
         theme="dark"
         mode="inline"
-        // selectedKeys={[location.pathname.split("/")[1]]}
-      >
-        {dataMenu.map((item) => (
-          <Menu.Item key={item.url}>
-            <NavLink to={item.url}>
-              {item.icon}
-              <span>{item.label}</span>
-            </NavLink>
-          </Menu.Item>
-        ))}
-      </Menu>
+        selectedKeys={[location.pathname]}
+        items={items}
+        onClick={onClick}
+      />
     </Sider>
   );
 };
