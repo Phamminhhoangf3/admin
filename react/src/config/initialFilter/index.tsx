@@ -61,7 +61,7 @@ export const initialFilters: InitialFiltersType<IFValueType> = {
     defaultValue,
   }) => ({
     key: "createdDate",
-    col: 6,
+    col: 12,
     control: (form) => (
       <FormRangeDate
         names={names}
@@ -69,6 +69,8 @@ export const initialFilters: InitialFiltersType<IFValueType> = {
         form={form}
         defaultValue={defaultValue}
         label={label}
+        showTime
+        format={"DD/MM/YYYY HH:mm:ss"}
       />
     ),
   }),
@@ -103,10 +105,17 @@ export const initialFilters: InitialFiltersType<IFValueType> = {
       />
     ),
   }),
-  fromDob: ({ name = "fromDob", label = "Ngày sinh" }) => ({
+  fromDob: ({ name = "fromDob", label = "Ngày sinh", onChange }) => ({
     key: name,
     col: 6,
-    control: (form) => <FormDatePicker name={name} label={label} form={form} />,
+    control: (form) => (
+      <FormDatePicker
+        name={name}
+        label={label}
+        form={form}
+        onChange={onChange}
+      />
+    ),
   }),
   toDob: ({ name = "toDob", label = "Ngày mất" }) => ({
     key: name,

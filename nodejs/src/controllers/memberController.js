@@ -4,14 +4,14 @@ import { StatusCodes } from 'http-status-codes';
 import { GENDER_MEMBER } from '../utils/constants';
 import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from '../utils/validators';
 import { Member } from '../models/memberModel.js';
-import { memberService } from '~/services/memberService';
+import { memberService } from '../services/memberService';
 
 const USER_COLLECTION_SCHEMA = Joi.object({
   gender: Joi.string().required().valid(GENDER_MEMBER.FEMALE, GENDER_MEMBER.MALE).trim().strict(),
   name: Joi.string().required().min(2).max(25).trim().strict(),
   image: Joi.string().required().trim().strict(),
-  fromDob: Joi.date().required(),
-  toDob: Joi.date().required(),
+  fromDob: Joi.string().required(),
+  toDob: Joi.string().required(),
   status: Joi.boolean().required().strict(),
   familyId: Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE).default(null),
   createdAt: Joi.date().default(new Date()),
@@ -95,10 +95,45 @@ const getDetail = async (req, res, next) => {
   }
 };
 
+const updateItem = async (req, res, next) => {
+  try {
+    const values = req.body;
+    const id = req.params.id;
+    memberService.updateItem(id, values, (error, data) => {
+      if (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+          message: error.message || 'Có lỗi xảy ra!'
+        });
+      }
+      res.status(StatusCodes.OK).json(data);
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteItem = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    memberService.deleteItem(id, (error, data) => {
+      if (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+          message: error.message || 'Có lỗi xảy ra!'
+        });
+      }
+      res.status(StatusCodes.OK).json(data);
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 const memberController = {
   getList,
   getDetail,
-  createNew
+  createNew,
+  updateItem,
+  deleteItem
 };
 
 export default memberController;

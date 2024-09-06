@@ -37,13 +37,11 @@ const Members = () => {
       title: "Ngày sinh",
       dataIndex: "fromDob",
       key: "fromDob",
-      render: (text: string) => CommonDate.formatDate(text),
     },
     {
       title: "Ngày mất",
       dataIndex: "toDob",
       key: "toDob",
-      render: (text: string) => CommonDate.formatDate(text),
     },
     {
       title: "Ảnh đại diện",

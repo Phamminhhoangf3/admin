@@ -7,12 +7,12 @@ type CreateMemberType = {
   fromDob: string;
   toDob: string;
   image: string;
-  active: boolean;
+  status: boolean;
   familyId?: string;
   gender: GENDER;
 };
 
-// type UpdateUserType = Omit<CreateUserType, "password" | "repeatPassword">;
+type UpdateMemberType = CreateMemberType;
 
 export const createMember = async (requestParams: CreateMemberType) => {
   try {
@@ -25,31 +25,20 @@ export const createMember = async (requestParams: CreateMemberType) => {
   }
 };
 
-// export const updateUser = async (
-//   idUser: string,
-//   requestParams: UpdateUserType
-// ) => {
-//   try {
-//     const response = await http.put(
-//       `${ENDPOINTS.updateUser}/${idUser}`,
-//       requestParams,
-//       {
-//         withCredentials: true,
-//       }
-//     );
-//     return response;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-// export const deleteUser = async (id: string) => {
-//   try {
-//     const response = await http.delete(`${ENDPOINTS.addUser}/${id}`, {
-//       withCredentials: true,
-//     });
-//     return response;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const updateMember = async (
+  idMember: string,
+  requestParams: UpdateMemberType
+) => {
+  try {
+    const response = await http.put(
+      `${ENDPOINTS.updateMember}/${idMember}`,
+      requestParams,
+      {
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};

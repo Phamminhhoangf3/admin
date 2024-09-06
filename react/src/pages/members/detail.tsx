@@ -9,8 +9,7 @@ import {
 import { ENDPOINTS } from "~/constants/common";
 import { paths } from "~/constants/path";
 import { useFetchData } from "~/hook/useFetchData";
-import { createMember } from "~/services/apis/members";
-import { updateUser } from "~/services/apis/users";
+import { createMember, updateMember } from "~/services/apis/members";
 import { TypePage } from "~/types";
 
 type DetailMemberType = {
@@ -51,9 +50,7 @@ const DetailMember = ({ typePage }: DetailMemberType) => {
       if (typePage === "add") res = await createMember(data);
       if (typePage === "update" && id) {
         const dataUpdate = { ...data };
-        delete dataUpdate.password;
-        delete dataUpdate.repeatPassword;
-        res = await updateUser(id, dataUpdate);
+        res = await updateMember(id, dataUpdate);
       }
       if (res?.status === 201 || res?.status === 200) {
         setLoadingSubmit(false);

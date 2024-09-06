@@ -15,6 +15,8 @@ export const corsOptions = {
       new ApiError(StatusCodes.FORBIDDEN, `${origin} not allowed by our CORS Policy.`)
     );
   },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   optionsSuccessStatus: 200,
   credentials: true
 };

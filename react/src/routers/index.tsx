@@ -5,7 +5,7 @@ import Login from "~/pages/auth/login";
 import MainLayout from "~/layout/main-layout";
 import { useAuth } from "~/authProvider";
 import AuthLayout from "~/layout/auth";
-import DetailUser from "~/pages/members/detail";
+import DetailUser from "~/pages/users/detail";
 import Members from "~/pages/members";
 import DetailMember from "~/pages/members/detail";
 
@@ -48,6 +48,10 @@ export default function RouteElements() {
           <Route index element={<Members />} />
           <Route path="add" element={<DetailMember typePage="add" />} />
           <Route path="view/:id" element={<DetailMember typePage="detail" />} />
+          <Route
+            path="update/:id"
+            element={<DetailMember typePage="update" />}
+          />
         </Route>
       </Route>
     </Routes>

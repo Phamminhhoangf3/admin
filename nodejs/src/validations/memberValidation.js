@@ -10,8 +10,8 @@ const correctCondition = Joi.object({
   name: Joi.string().required().min(2).max(25).trim().strict(),
   image: Joi.string().required().trim().strict(),
   status: Joi.boolean().required().strict(),
-  fromDob: Joi.date().required(),
-  toDob: Joi.date().required(),
+  fromDob: Joi.string().required(),
+  toDob: Joi.string().required(),
   familyId: Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE).default(null)
 });
 
@@ -24,8 +24,18 @@ const createNew = async (req, res, next) => {
   }
 };
 
+const updateItem = async (req, res, next) => {
+  try {
+    await correctCondition.validateAsync(req.body, { abortEarly: false });
+    next();
+  } catch (error) {
+    next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message));
+  }
+};
+
 const memberValidation = {
-  createNew
+  createNew,
+  updateItem
 };
 
 export default memberValidation;

@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import moment from "moment";
 
 const CommonDate = {
-  formatStringToDateSubmit: (value: string) => {
+  formatStringToDateSubmit: (value: any) => {
     if (!value) return null;
     return dayjs(value).utc().format();
   },

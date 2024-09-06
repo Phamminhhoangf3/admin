@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import FormPage from "~/components/form-page";
 import {
   getFormListItem,
-  KeyFormItemType,
   PropsItemType,
 } from "~/components/form-page/formItem";
 import { ENDPOINTS } from "~/constants/common";
@@ -28,21 +27,10 @@ const DetailUser = ({ typePage }: DetailUserType) => {
     disable: typePage === "add",
   });
 
-  const listName = [
-    "username",
-    "level",
-    "password",
-    "repeatPassword",
-    "status",
-  ];
+  const listName = ["username", "password", "repeatPassword", "status"];
 
-  const returnPropItem = (name: KeyFormItemType) => {
-    const props: PropsItemType = { name };
-    switch (name) {
-      case "status":
-        props.name = "active";
-        break;
-    }
+  const returnPropItem = () => {
+    const props: PropsItemType = {};
     return props;
   };
 

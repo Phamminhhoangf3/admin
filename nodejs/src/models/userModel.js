@@ -126,10 +126,10 @@ const getAll = async (filters = {}) => {
     if (filters.keywords) query.username = { $regex: filters.keywords, $options: 'i' };
     if (filters.status !== undefined) query.status = filters.status;
     if (filters.fromDate && filters.toDate) {
-      query.createdAt = {};
-      if (filters.fromDate)
-        query.createdAt.$gte = moment(filters.fromDate).startOf('day').valueOf();
-      if (filters.toDate) query.createdAt.$lte = moment(filters.toDate).endOf('day').valueOf();
+      query.createdAt = {
+        $gte: moment(filters.fromDate).valueOf(),
+        $lte: moment(filters.toDate).valueOf()
+      };
     }
     const result = await GET_DB()
       .collection(USER_COLLECTION_NAME)
@@ -160,7 +160,7 @@ const deleteItem = async userId => {
           returnOriginal: false
         }
       );
-    return result.value;
+    return result;
   } catch (error) {
     throw new Error(error);
   }
