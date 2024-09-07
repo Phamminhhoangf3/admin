@@ -55,8 +55,8 @@ const DetailMember = ({ typePage }: DetailMemberType) => {
       if (res?.status === 201 || res?.status === 200) {
         setLoadingSubmit(false);
         let message = "";
-        if (typePage === "add") message = "Tạo người dùng thành công !";
-        if (typePage === "update") message = "Cập nhật người dùng thành công !";
+        if (typePage === "add") message = "Tạo thành viên thành công !";
+        if (typePage === "update") message = "Cập nhật thành viên thành công !";
         messageApi.open({
           type: "success",
           content: message,

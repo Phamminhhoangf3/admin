@@ -1,5 +1,10 @@
 import { paths } from "~/constants/path";
-import { HomeOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  AppstoreOutlined,
+  HomeOutlined,
+  TeamOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 type dataMenuType = {
   label: string;
@@ -10,7 +15,7 @@ type dataMenuType = {
 export const dataMenu: dataMenuType[] = [
   {
     label: "Trang chủ",
-    icon: <HomeOutlined />,
+    icon: <AppstoreOutlined />,
     url: paths.home,
   },
   {
@@ -22,5 +27,10 @@ export const dataMenu: dataMenuType[] = [
     label: "Thành viên",
     icon: <TeamOutlined />,
     url: paths.members,
+  },
+  {
+    label: "Gia đình",
+    icon: <HomeOutlined />,
+    url: paths.family,
   },
 ];

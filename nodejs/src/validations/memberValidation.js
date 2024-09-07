@@ -5,7 +5,7 @@ import ApiError from '../utils/ApiError';
 import { GENDER_MEMBER } from '../utils/constants';
 import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from '../utils/validators';
 
-const correctCondition = Joi.object({
+const schemaMember = Joi.object({
   gender: Joi.string().required().valid(GENDER_MEMBER.FEMALE, GENDER_MEMBER.MALE).trim().strict(),
   name: Joi.string().required().min(2).max(25).trim().strict(),
   image: Joi.string().required().trim().strict(),
@@ -17,7 +17,7 @@ const correctCondition = Joi.object({
 
 const createNew = async (req, res, next) => {
   try {
-    await correctCondition.validateAsync(req.body, { abortEarly: false });
+    await schemaMember.validateAsync(req.body, { abortEarly: false });
     next();
   } catch (error) {
     next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message));
@@ -26,7 +26,7 @@ const createNew = async (req, res, next) => {
 
 const updateItem = async (req, res, next) => {
   try {
-    await correctCondition.validateAsync(req.body, { abortEarly: false });
+    await schemaMember.validateAsync(req.body, { abortEarly: false });
     next();
   } catch (error) {
     next(new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, new Error(error).message));
@@ -35,7 +35,8 @@ const updateItem = async (req, res, next) => {
 
 const memberValidation = {
   createNew,
-  updateItem
+  updateItem,
+  schemaMember
 };
 
 export default memberValidation;

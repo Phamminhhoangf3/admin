@@ -18,4 +18,9 @@ export const paths = {
   addMember: BASE_URL + "/members/add",
   viewMember: BASE_URL + "/members/view",
   updateMember: BASE_URL + "/members/update",
+  // family
+  family: BASE_URL + "/family",
+  addFamily: BASE_URL + "/family/add",
+  viewFamily: BASE_URL + "/family/view",
+  updateFamily: BASE_URL + "/family/update",
 } as const;

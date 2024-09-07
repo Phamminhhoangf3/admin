@@ -48,8 +48,8 @@ const DetailUser = ({ typePage }: DetailUserType) => {
       if (res?.status === 201 || res?.status === 200) {
         setLoadingSubmit(false);
         let message = "";
-        if (typePage === "add") message = "Tạo người dùng thành công !";
-        if (typePage === "update") message = "Cập nhật người dùng thành công !";
+        if (typePage === "add") message = "Tạo tài khoản thành công !";
+        if (typePage === "update") message = "Cập nhật tài khoản thành công !";
         messageApi.open({
           type: "success",
           content: message,

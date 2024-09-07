@@ -23,6 +23,12 @@ export const ENDPOINTS = Object.freeze({
   deleteMember: `${ROOT_URL}/v1/admin/members/delete`,
   updateMember: `${ROOT_URL}/v1/admin/members/update`,
   detailMember: `${ROOT_URL}/v1/admin/members/detail`,
+  // family
+  family: `${ROOT_URL}/v1/admin/family`,
+  addFamily: `${ROOT_URL}/v1/admin/family/add`,
+  deleteFamily: `${ROOT_URL}/v1/admin/family/delete`,
+  updateFamily: `${ROOT_URL}/v1/admin/family/update`,
+  detailFamily: `${ROOT_URL}/v1/admin/family/detail`,
   // Auth
   login: `${ROOT_URL}/v1/auth/login`,
   logout: `${ROOT_URL}/v1/auth/logout`,
