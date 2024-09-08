@@ -9,6 +9,7 @@ import DetailUser from "~/pages/users/detail";
 import Members from "~/pages/members";
 import DetailMember from "~/pages/members/detail";
 import Family from "~/pages/family";
+import DetailFamily from "~/pages/family/detail";
 
 const RejectedRoute = () => {
   const { isAuthenticated } = useAuth();
@@ -56,6 +57,12 @@ export default function RouteElements() {
         </Route>
         <Route path="family">
           <Route index element={<Family />} />
+          <Route path="add" element={<DetailFamily typePage="add" />} />
+          <Route path="view/:id" element={<DetailFamily typePage="detail" />} />
+          <Route
+            path="update/:id"
+            element={<DetailFamily typePage="update" />}
+          />
         </Route>
       </Route>
     </Routes>

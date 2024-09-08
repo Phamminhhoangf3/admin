@@ -6,5 +6,8 @@ const Router = express.Router();
 
 Router.post('/', familyController.getList);
 Router.post('/add', familyValidation.createNew, familyController.createNew);
+Router.put('/update/:id', familyValidation.updateItem, familyController.updateItem);
+Router.get('/detail/:id', familyController.getDetail);
+Router.delete('/delete/:id', familyController.deleteItem);
 
 export const familyAdminRoute = Router;

@@ -1,3 +1,4 @@
+import { Avatar, Flex, Space, Typography } from "antd";
 import { ColumnType } from "antd/es/table";
 import PageCommonList from "~/components/PageCommonList";
 import { NameAction } from "~/components/PageCommonList/pageCommonList.type";
@@ -24,19 +25,31 @@ type FamilyRecordType = {
   updatedAt: string;
 };
 
+const { Text } = Typography;
+
 const Family = () => {
   const columns: ColumnType<FamilyRecordType>[] = [
     {
       title: "Gia đình",
       dataIndex: "husband",
       key: "husband",
-      render: (husband) => <span>{husband?.name}</span>,
+      align: "center",
+      width: "100px",
+      render: (husband) => (
+        <Flex justify="start">
+          <Space>
+            <Avatar src={husband?.image} alt={husband?.name} />
+            <Text>{husband?.name}</Text>
+          </Space>
+        </Flex>
+      ),
     },
     {
       title: "Trạng thái",
       dataIndex: "status",
       key: "status",
       align: "center",
+      width: "60px",
       render: (text: boolean) => tagActive(text),
     },
     {
@@ -44,6 +57,7 @@ const Family = () => {
       dataIndex: "createdAt",
       key: "createdAt",
       align: "center",
+      width: "80px",
       render: (text: string) => CommonDate.formatDatetime(text),
     },
     {
@@ -51,6 +65,7 @@ const Family = () => {
       dataIndex: "updatedAt",
       key: "updatedAt",
       align: "center",
+      width: "80px",
       render: (text: string) => CommonDate.formatDatetime(text),
     },
   ];

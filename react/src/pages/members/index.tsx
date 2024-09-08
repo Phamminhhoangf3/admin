@@ -13,7 +13,7 @@ import { paths } from "~/constants/path";
 import CommonDate from "~/utils/common-date";
 import { tagActive } from "~/utils/tags";
 
-type UserRecordType = {
+export type MemberRecordType = {
   _id: string;
   title: string;
   name: string;
@@ -27,7 +27,7 @@ type UserRecordType = {
 };
 
 const Members = () => {
-  const columns: ColumnType<UserRecordType>[] = [
+  const columns: ColumnType<MemberRecordType>[] = [
     {
       title: "Họ và tên",
       dataIndex: "name",
@@ -37,11 +37,13 @@ const Members = () => {
       title: "Ngày sinh",
       dataIndex: "fromDob",
       key: "fromDob",
+      render: (text) => CommonDate.formatDate(text),
     },
     {
       title: "Ngày mất",
       dataIndex: "toDob",
       key: "toDob",
+      render: (text) => CommonDate.formatDate(text),
     },
     {
       title: "Ảnh đại diện",

@@ -91,7 +91,7 @@ const FormPage = (props: FormPageType) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Row gutter={[16, 10]}>
             {formListItem?.map((item) => (
-              <Col md={6} sm={6} xs={12} key={item.key}>
+              <Col span={item.col} key={item.key}>
                 {item.control({ form, type })}
                 {errors?.[item?.name]?.message && (
                   <Typography.Text type="danger">

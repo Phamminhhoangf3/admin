@@ -1,27 +1,6 @@
-/* eslint-disable no-console */
-import Joi from 'joi';
 import { StatusCodes } from 'http-status-codes';
-import { GENDER_MEMBER } from '../utils/constants';
-import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from '../utils/validators';
 import { Member } from '../models/memberModel.js';
 import { memberService } from '../services/memberService';
-
-const USER_COLLECTION_SCHEMA = Joi.object({
-  gender: Joi.string().required().valid(GENDER_MEMBER.FEMALE, GENDER_MEMBER.MALE).trim().strict(),
-  name: Joi.string().required().min(2).max(25).trim().strict(),
-  image: Joi.string().required().trim().strict(),
-  fromDob: Joi.string().required(),
-  toDob: Joi.string().required(),
-  status: Joi.boolean().required().strict(),
-  familyId: Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE).default(null),
-  createdAt: Joi.date().default(new Date()),
-  updatedAt: Joi.date().default(null),
-  _destroy: Joi.boolean().default(false)
-});
-
-const validationBeforeCreate = async data => {
-  return await USER_COLLECTION_SCHEMA.validateAsync(data, { abortEarly: false });
-};
 
 const createNew = async (req, res, next) => {
   try {
@@ -40,13 +19,7 @@ const createNew = async (req, res, next) => {
       gender: body.gender,
       status: body.status
     });
-    const memberValid = await validationBeforeCreate(member);
-    if (!memberValid) {
-      res.status(StatusCodes.BAD_REQUEST).send({
-        message: 'Dữ liệu không hợp lệ!'
-      });
-    }
-    Member.create(memberValid, (error, data) => {
+    Member.create(member, (error, data) => {
       if (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
           message: error.message || 'Có lỗi xảy ra!'

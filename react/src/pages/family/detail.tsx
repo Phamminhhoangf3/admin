@@ -10,32 +10,30 @@ import {
 import { ENDPOINTS } from "~/constants/common";
 import { paths } from "~/constants/path";
 import { useFetchData } from "~/hook/useFetchData";
-import { createMember, updateMember } from "~/services/apis/members";
 import { TypePage } from "~/types";
+import serviceFamily from "~/services/apis/family";
 
-type DetailMemberType = {
+type DetailFamilyType = {
   typePage: TypePage;
 };
 
-const DetailMember = ({ typePage }: DetailMemberType) => {
+const DetailFamily = ({ typePage }: DetailFamilyType) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
   const { data: dataDetails, loading } = useFetchData({
-    endpoint: `${ENDPOINTS.detailMember}/${id}`,
+    endpoint: `${ENDPOINTS.detailFamily}/${id}`,
     disable: typePage === "add",
   });
 
   const listName: KeyFormItemType[] = [
-    "name",
-    "fromDob",
-    "toDob",
-    "gender",
-    "image",
-    "familyId",
+    "husbandId",
+    "wifeId",
+    "exWifeId",
     "status",
+    "childrenIds",
   ];
 
   const returnPropItem = () => {
@@ -44,24 +42,24 @@ const DetailMember = ({ typePage }: DetailMemberType) => {
   };
 
   const handleSubmit = async (data) => {
-    if (data?.familyId === null) delete data.familyId;
     try {
+      data.type = "family";
       setLoadingSubmit(true);
       let res;
-      if (typePage === "add") res = await createMember(data);
+      if (typePage === "add") res = await serviceFamily.createFamily(data);
       if (typePage === "update" && id) {
         const dataUpdate = { ...data };
-        res = await updateMember(id, dataUpdate);
+        res = await serviceFamily.updateFamily(id, dataUpdate);
       }
       if (res?.status === 201 || res?.status === 200) {
         setLoadingSubmit(false);
         let message = "";
-        if (typePage === "add") message = "Tạo thành viên thành công !";
-        if (typePage === "update") message = "Cập nhật thành viên thành công !";
+        if (typePage === "add") message = "Tạo gia đình thành công !";
+        if (typePage === "update") message = "Cập nhật gia đình thành công !";
         messageApi.open({
           type: "success",
           content: message,
-          onClose: () => navigate(paths.members),
+          onClose: () => navigate(paths.family),
         });
       }
       setLoadingSubmit(false);
@@ -83,12 +81,12 @@ const DetailMember = ({ typePage }: DetailMemberType) => {
         type={typePage}
         formListItem={getFormListItem(listName, returnPropItem)}
         onSubmit={handleSubmit}
-        pathEdit={`${paths.updateMember}?id=${id}`}
-        pathBack={paths.members}
+        pathEdit={`${paths.updateFamily}?id=${id}`}
+        pathBack={paths.family}
       />
       {contextHolder}
     </>
   );
 };
 
-export default DetailMember;
+export default DetailFamily;

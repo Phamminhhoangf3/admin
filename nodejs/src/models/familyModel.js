@@ -2,8 +2,21 @@ const moment = require('moment');
 const { ObjectId } = require('mongodb');
 const { GET_DB } = require('../config/mongodb');
 const { MEMBER_COLLECTION_NAME } = require('./memberModel');
+const { convertObjectId } = require('../utils/convert');
+const {
+  FAMILY_COLLECTION_CREATE_SCHEMA,
+  FAMILY_COLLECTION_UPDATE_SCHEMA,
+  FAMILY_COLLECTION_NAME
+} = require('../schemas/familySchema');
 
-const FAMILY_COLLECTION_NAME = 'families';
+const validationBeforeCreate = async data => {
+  return await FAMILY_COLLECTION_CREATE_SCHEMA.validateAsync(data, { abortEarly: false });
+};
+
+const validationBeforeUpdate = async data => {
+  return await FAMILY_COLLECTION_UPDATE_SCHEMA.validateAsync(data, { abortEarly: false });
+};
+
 const findOneById = async id =>
   await GET_DB()
     .collection(FAMILY_COLLECTION_NAME)
@@ -15,19 +28,22 @@ const Family = function (family) {
   this.wifeId = family.wifeId;
   this.exWifeId = family.exWifeId;
   this.childrenIds = family.childrenIds;
+  this.status = family.status;
 };
 
-Family.create = async (familyNew, result) => {
+Family.create = async (family, result) => {
   try {
-    const validDataToAdd = { ...familyNew };
-    if (familyNew.husbandId) validDataToAdd.husbandId = new ObjectId(familyNew.husbandId);
-    if (familyNew.wifeId) validDataToAdd.wifeId = new ObjectId(familyNew.wifeId);
-    if (familyNew.exWifeId) validDataToAdd.exWifeId = new ObjectId(familyNew.exWifeId);
-    if (familyNew.childrenIds.length) validDataToAdd.childrenIds.map(child => new ObjectId(child));
+    const familyValid = await validationBeforeCreate(family);
+    if (!familyValid) {
+      throw new Error('Dữ liệu không hợp lệ!');
+    }
+
+    const fieldsToConvert = ['husbandId', 'wifeId', 'exWifeId', 'childrenIds'];
     const familyInserted = await GET_DB()
       .collection(FAMILY_COLLECTION_NAME)
-      .insertOne(validDataToAdd);
+      .insertOne(convertObjectId(familyValid, fieldsToConvert));
     const familyCreated = await findOneById(familyInserted.insertedId);
+
     result(null, familyCreated);
   } catch (error) {
     result(error, null);
@@ -45,45 +61,9 @@ Family.findOneById = async (id, result) => {
             _destroy: false
           }
         },
-        {
-          $lookup: {
-            from: MEMBER_COLLECTION_NAME,
-            localField: 'husbandId',
-            foreignField: '_id',
-            as: 'husband',
-            pipeline: [{ $project: { _destroy: 0 } }]
-          }
-        },
-        {
-          $lookup: {
-            from: MEMBER_COLLECTION_NAME,
-            localField: 'wifeId',
-            foreignField: '_id',
-            as: 'wife',
-            pipeline: [{ $project: { _destroy: 0 } }]
-          }
-        },
-        {
-          $lookup: {
-            from: MEMBER_COLLECTION_NAME,
-            localField: 'exWifeId',
-            foreignField: '_id',
-            as: 'exWife',
-            pipeline: [{ $project: { _destroy: 0 } }]
-          }
-        },
-        {
-          $lookup: {
-            from: MEMBER_COLLECTION_NAME,
-            localField: 'childrenIds',
-            foreignField: '_id',
-            as: 'children',
-            pipeline: [{ $project: { _destroy: 0 } }]
-          }
-        },
-        { $project: { _destroy: 0, husbandId: 0, wifeId: 0, exWifeId: 0, childrenIds: 0 } }
+        { $project: { _destroy: 0 } }
       ])
-      .toArray();
+      .next();
     result(null, family);
   } catch (error) {
     result(error, null);
@@ -150,4 +130,58 @@ Family.findAll = async (filters, result) => {
     result(error, null);
   }
 };
+
+Family.update = async (id, familyUpdate, result) => {
+  try {
+    const familyValid = await validationBeforeUpdate(familyUpdate);
+    if (!familyValid) {
+      throw new Error('Dữ liệu không hợp lệ!');
+    }
+
+    const fieldsToConvert = ['husbandId', 'wifeId', 'exWifeId', 'childrenIds'];
+    const data = await GET_DB()
+      .collection(FAMILY_COLLECTION_NAME)
+      .updateOne(
+        {
+          _id: new ObjectId(id),
+          _destroy: false
+        },
+        {
+          $set: convertObjectId(familyValid, fieldsToConvert)
+        }
+      );
+    if (data.matchedCount === 0) {
+      throw new Error('No documents matches the provided id');
+    } else {
+      const familyUpdated = await findOneById(id);
+      result(null, familyUpdated);
+    }
+  } catch (error) {
+    result(error, null);
+  }
+};
+
+Family.delete = async (id, result) => {
+  try {
+    const data = await GET_DB()
+      .collection(FAMILY_COLLECTION_NAME)
+      .findOneAndUpdate(
+        {
+          _id: new ObjectId(id)
+        },
+        {
+          $set: {
+            _destroy: true
+          }
+        },
+        {
+          returnOriginal: false
+        }
+      );
+    result(null, data);
+  } catch (error) {
+    result(error, null);
+  }
+};
+
 module.exports = Family;

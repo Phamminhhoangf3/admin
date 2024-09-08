@@ -6,6 +6,13 @@ import FormSwitch from "../form/formSwitch";
 import FormDatePicker from "../form/formDatePicker";
 import FormSelect from "../form/formSelect";
 import { genderOptions } from "~/common/options-select";
+import { getMemberList } from "~/services/apis/members";
+import DebounceSelect from "../form/debounceSelect";
+import { GENDER } from "~/common/enum";
+import { Avatar, Space, Typography } from "antd";
+import { MemberRecordType } from "~/pages/members";
+
+const { Text } = Typography;
 
 export type PropsItemType = {
   name?: string;
@@ -42,7 +49,11 @@ export type KeyFormItemType =
   | "toDob"
   | "gender"
   | "image"
-  | "familyId";
+  | "familyId"
+  | "husbandId"
+  | "wifeId"
+  | "exWifeId"
+  | "childrenIds";
 
 export type FormItemsType = {
   [key in KeyFormItemType]?: ValueType;
@@ -280,6 +291,134 @@ const formItems: FormItemsType = {
         />
       );
     },
+  }),
+  husbandId: ({ name = "husbandId" }) => ({
+    key: name,
+    name: name,
+    col: 6,
+    value: null,
+    control: ({ form: { setValue, watch } }) => (
+      <DebounceSelect
+        showSearch
+        style={{ width: "100%" }}
+        label="Chồng:"
+        placeholder="Chọn chồng"
+        value={watch(name)}
+        fetchOptions={(filter) =>
+          getMemberList({ ...filter, gender: GENDER.MALE })
+        }
+        onChange={(newValue) => {
+          setValue(name, newValue?.value);
+        }}
+        handleResponse={(member: MemberRecordType) => ({
+          label: member?.name,
+          value: member?._id,
+          image: member?.image,
+        })}
+        optionRender={(option: any) => (
+          <Space>
+            <Avatar src={option?.data?.image} />
+            <Text>{option?.label}</Text>
+          </Space>
+        )}
+      />
+    ),
+  }),
+  wifeId: ({ name = "wifeId" }) => ({
+    key: name,
+    name: name,
+    col: 6,
+    value: null,
+    control: ({ form: { setValue, watch } }) => (
+      <DebounceSelect
+        showSearch
+        label="Vợ:"
+        placeholder="Chọn vợ"
+        style={{ width: "100%" }}
+        value={watch(name)}
+        fetchOptions={(filter) =>
+          getMemberList({ ...filter, gender: GENDER.FEMALE })
+        }
+        onChange={(newValue) => {
+          setValue(name, newValue?.value);
+        }}
+        handleResponse={(member: MemberRecordType) => ({
+          label: `${member?.name}`,
+          value: member?._id,
+          image: member?.image,
+        })}
+        optionRender={(option: any) => (
+          <Space>
+            <Avatar src={option?.data?.image} />
+            <Text>{option?.label}</Text>
+          </Space>
+        )}
+      />
+    ),
+  }),
+  exWifeId: ({ name = "exWifeId" }) => ({
+    key: name,
+    name: name,
+    col: 6,
+    value: null,
+    control: ({ form: { setValue, watch } }) => (
+      <DebounceSelect
+        showSearch
+        label="Vợ cũ:"
+        placeholder="Chọn vợ cũ"
+        style={{ width: "100%" }}
+        value={watch(name)}
+        fetchOptions={(filter) =>
+          getMemberList({ ...filter, gender: GENDER.FEMALE })
+        }
+        onChange={(newValue) => {
+          setValue(name, newValue?.value);
+        }}
+        handleResponse={(member: MemberRecordType) => ({
+          label: `${member?.name}`,
+          value: member?._id,
+          image: member?.image,
+        })}
+        optionRender={(option: any) => (
+          <Space>
+            <Avatar src={option?.data?.image} />
+            <Text>{option?.label}</Text>
+          </Space>
+        )}
+      />
+    ),
+  }),
+  childrenIds: ({ name = "childrenIds" }) => ({
+    key: name,
+    name: name,
+    col: 12,
+    value: null,
+    control: ({ form: { setValue, watch } }) => (
+      <DebounceSelect
+        showSearch
+        mode="multiple"
+        label="Con:"
+        placeholder="Chọn con"
+        style={{ width: "100%" }}
+        value={watch(name)}
+        fetchOptions={getMemberList}
+        onChange={(items) => {
+          const values = items?.length ? items?.map((item) => item?.value) : [];
+          setValue(name, values);
+        }}
+        handleResponse={(member: MemberRecordType) => ({
+          label: `${member?.name}`,
+          value: member?._id,
+          image: member?.image,
+        })}
+        optionRender={(option: any) => (
+          <Space>
+            <Avatar src={option?.data?.image} />
+            <Text>{option?.label}</Text>
+          </Space>
+        )}
+      />
+    ),
   }),
 };
 

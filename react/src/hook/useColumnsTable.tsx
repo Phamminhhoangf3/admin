@@ -13,8 +13,9 @@ const useColumnsTable = <T,>(
   const firstColumn = {
     title: "STT",
     dataIndex: "id",
-    width: "80px",
+    width: "50px",
     align: "center",
+    fixed: "left",
     render: (_, __, index) => <Typography.Text>{index + 1}</Typography.Text>,
   };
 
@@ -68,6 +69,8 @@ const useColumnsTable = <T,>(
       key: fieldId,
       dataIndex: fieldId,
       align: "center",
+      fixed: "right",
+      width: 100,
       render: renderColumnAction,
     };
     lastColumns.push(columnAction);

@@ -1,23 +1,18 @@
 const { ObjectId } = require('mongodb');
-const Joi = require('joi');
 const moment = require('moment');
 const { GET_DB } = require('../config/mongodb');
-const { GENDER_MEMBER } = require('../utils/constants');
-const { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } = require('../../build/src/utils/validators');
+const {
+  MEMBER_COLLECTION_SCHEMA,
+  MEMBER_UPDATE_SCHEMA,
+  MEMBER_COLLECTION_NAME
+} = require('../schemas/memberSchema');
 
-const MEMBER_COLLECTION_NAME = 'members';
-const UPDATE_UPDATE_SCHEMA = Joi.object({
-  gender: Joi.string().required().valid(GENDER_MEMBER.FEMALE, GENDER_MEMBER.MALE).trim().strict(),
-  name: Joi.string().required().min(2).max(25).trim().strict(),
-  image: Joi.string().required().trim().strict(),
-  status: Joi.boolean().required().strict(),
-  fromDob: Joi.string().required(),
-  toDob: Joi.string().required(),
-  familyId: Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE).default(null)
-});
+const validationBeforeCreate = async data => {
+  return await MEMBER_COLLECTION_SCHEMA.validateAsync(data, { abortEarly: false });
+};
 
 const validationBeforeUpdate = async data => {
-  return await UPDATE_UPDATE_SCHEMA.validateAsync(data, { abortEarly: false });
+  return await MEMBER_UPDATE_SCHEMA.validateAsync(data, { abortEarly: false });
 };
 
 const findOneById = async id =>
@@ -37,12 +32,16 @@ const Member = function (member) {
 
 Member.create = async (newMember, result) => {
   try {
-    const validDataToAdd = { ...newMember };
-    if (newMember.family) validDataToAdd.family = new ObjectId(newMember.family);
-    const memberInserted = await GET_DB()
-      .collection(MEMBER_COLLECTION_NAME)
-      .insertOne(validDataToAdd);
+    const memberValid = await validationBeforeCreate(newMember);
+    if (!memberValid) {
+      throw new Error('Dữ liệu không hợp lệ!');
+    }
+
+    if (newMember.family) memberValid.family = new ObjectId(newMember.family);
+
+    const memberInserted = await GET_DB().collection(MEMBER_COLLECTION_NAME).insertOne(memberValid);
     const memberCreated = await findOneById(memberInserted.insertedId);
+
     result(null, memberCreated);
   } catch (error) {
     result(error, null);
@@ -145,32 +144,6 @@ Member.findOneById = async (id, result) => {
   } catch (error) {
     result(error, null);
   }
-};
-
-Member.convertToHusband = member => {
-  if (!member) return null;
-  return { ...member, tag: 'husband' };
-};
-
-Member.convertToWife = member => {
-  if (!member) return null;
-  return { ...member, tag: 'wife' };
-};
-
-Member.convertToExWife = member => {
-  if (!member) return null;
-  return { ...member, tag: 'ex-wife' };
-};
-
-Member.convertToChild = (members, dad) => {
-  if (!members || !members?.length) return [];
-  return members.map(member => {
-    const newMember = { ...member };
-    if (newMember.gender === GENDER_MEMBER.FEMALE) newMember.tag = 'daugther';
-    if (newMember.gender === GENDER_MEMBER.MALE) newMember.tag = 'son';
-    if (dad) newMember.dad = dad._id;
-    return newMember;
-  });
 };
 
 module.exports = { Member, MEMBER_COLLECTION_NAME };

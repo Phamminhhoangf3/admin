@@ -14,6 +14,24 @@ type CreateMemberType = {
 
 type UpdateMemberType = CreateMemberType;
 
+type FilterType = {
+  keywords?: string;
+  page: number;
+  pageSize: number;
+  [key: string]: any;
+};
+
+export const getMemberList = async (requestParams: FilterType) => {
+  try {
+    const response = await http.post(ENDPOINTS.members, requestParams, {
+      withCredentials: true,
+    });
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const createMember = async (requestParams: CreateMemberType) => {
   try {
     const response = await http.post(ENDPOINTS.addMember, requestParams, {

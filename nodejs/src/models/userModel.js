@@ -1,27 +1,11 @@
-import Joi from 'joi';
 import moment from 'moment';
 import { ObjectId } from 'mongodb';
 import { GET_DB } from '../config/mongodb.js';
-import { regexPassword } from '../config/regex.js';
-
-const USER_COLLECTION_NAME = 'account';
-const USER_COLLECTION_SCHEMA = Joi.object({
-  username: Joi.string().min(3).max(30).required(),
-  status: Joi.boolean().required(),
-  password: Joi.string().pattern(new RegExp(regexPassword)),
-  repeatPassword: Joi.ref('password'),
-  createdAt: Joi.date().timestamp('javascript').default(Date.now),
-  updatedAt: Joi.date().timestamp('javascript').default(null),
-  _destroy: Joi.boolean().default(false)
-}).with('password', 'repeatPassword');
-
-const USER_UPDATE_SCHEMA = Joi.object({
-  username: Joi.string().min(3).max(30),
-  level: Joi.number().min(1).max(7),
-  status: Joi.boolean(),
-  updatedAt: Joi.date().timestamp('javascript').default(Date.now),
-  _destroy: Joi.boolean().default(false)
-});
+import {
+  USER_COLLECTION_NAME,
+  USER_COLLECTION_SCHEMA,
+  USER_UPDATE_SCHEMA
+} from '../schemas/userSchema.js';
 
 const validationBeforeCreate = async data => {
   return await USER_COLLECTION_SCHEMA.validateAsync(data, { abortEarly: false });
@@ -49,20 +33,21 @@ const updateItem = async (id, data) => {
     delete validData.password;
     delete validData.repeatPassword;
     validData.updatedAt = Date.now();
-    const objectId = new ObjectId(id);
-    const result = await GET_DB().collection(USER_COLLECTION_NAME).updateOne(
-      {
-        _id: objectId,
-        _destroy: false
-      },
-      {
-        $set: validData
-      }
-    );
+    const result = await GET_DB()
+      .collection(USER_COLLECTION_NAME)
+      .updateOne(
+        {
+          _id: new ObjectId(id),
+          _destroy: false
+        },
+        {
+          $set: validData
+        }
+      );
     if (result.matchedCount === 0) {
       throw new Error('No documents matches the provided id');
     }
-    return await findOneById(objectId);
+    return await findOneById(id);
   } catch (error) {
     throw new Error(error);
   }
