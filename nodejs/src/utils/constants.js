@@ -1,4 +1,8 @@
-const WHITELIST_DOMAINS = ['http://localhost:5173', 'https://admin-front-end-six.vercel.app'];
+const WHITELIST_DOMAINS = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://admin-front-end-six.vercel.app'
+];
 
 const TAG_USER = {
   SON: 'son',

@@ -2,6 +2,7 @@
 import { StatusCodes } from 'http-status-codes';
 import Family from '../models/familyModel';
 import familyService from '../services/familyService';
+import { Member } from '../models/memberModel';
 
 const createNew = async (req, res, next) => {
   try {
@@ -21,10 +22,29 @@ const createNew = async (req, res, next) => {
     Family.create(family, (error, data) => {
       if (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
-          message: error.message || 'Có lỗi xảy ra!'
+          message: error.message || 'Có lỗi xảy ra khi tạo gia đình!'
+        });
+      } else {
+        const members = ['husbandId', 'wifeId', 'exWifeId'];
+
+        const memberIds = members.map(member => {
+          if (data?.[member]) {
+            return data?.[member];
+          }
+        });
+
+        const valueUpdate = { familyId: data._id, updatedAt: Date.now() };
+
+        Member.updateMany(memberIds, valueUpdate, error => {
+          if (error) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+              message: error.message || 'Có lỗi xảy ra cập nhật thành viên!'
+            });
+          } else {
+            res.status(StatusCodes.CREATED).json(data);
+          }
         });
       }
-      res.status(StatusCodes.CREATED).json(data);
     });
   } catch (error) {
     next(error);
@@ -39,6 +59,28 @@ const getDetail = async (req, res, next) => {
       });
     }
     Family.findOneById(req.params?.id, (error, data) => {
+      if (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
+          message: error.message || 'Có lỗi xảy ra!'
+        });
+      } else {
+        res.status(StatusCodes.OK).json(data);
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getView = async (req, res, next) => {
+  try {
+    const id = req.params?.id;
+    if (!id) {
+      res.status(StatusCodes.BAD_REQUEST).send({
+        message: 'Nội dung không được để trống!'
+      });
+    }
+    familyService.getView(id, (error, data) => {
       if (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).send({
           message: error.message || 'Có lỗi xảy ra!'
@@ -106,4 +148,4 @@ const deleteItem = async (req, res, next) => {
   }
 };
 
-export default { createNew, getDetail, getList, updateItem, deleteItem };
+export default { createNew, getDetail, getList, updateItem, deleteItem, getView };

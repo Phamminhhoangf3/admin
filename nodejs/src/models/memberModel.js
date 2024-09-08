@@ -4,7 +4,8 @@ const { GET_DB } = require('../config/mongodb');
 const {
   MEMBER_COLLECTION_SCHEMA,
   MEMBER_UPDATE_SCHEMA,
-  MEMBER_COLLECTION_NAME
+  MEMBER_COLLECTION_NAME,
+  MEMBER_UPDATE_MANY_SCHEMA
 } = require('../schemas/memberSchema');
 
 const validationBeforeCreate = async data => {
@@ -69,6 +70,37 @@ Member.update = async (id, updateMember, result) => {
     } else {
       const memberUpdated = await findOneById(id);
       result(null, memberUpdated);
+    }
+  } catch (error) {
+    result(error, null);
+  }
+};
+
+Member.updateMany = async (ids, valueUpdate, result) => {
+  try {
+    const objectIds = ids.map(id => new ObjectId(id));
+    const data = await GET_DB()
+      .collection(MEMBER_COLLECTION_NAME)
+      .updateMany(
+        {
+          _id: { $in: objectIds },
+          _destroy: false
+        },
+        {
+          $set: valueUpdate
+        }
+      );
+
+    if (data.matchedCount === 0) {
+      throw new Error('Không có thành viên trùng khớp!');
+    } else {
+      const membersUpdated = await GET_DB()
+        .collection(MEMBER_COLLECTION_NAME)
+        .find({
+          _id: { $in: objectIds }
+        })
+        .toArray();
+      result(null, membersUpdated);
     }
   } catch (error) {
     result(error, null);

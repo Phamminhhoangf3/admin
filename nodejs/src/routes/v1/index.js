@@ -4,8 +4,8 @@ import { StatusCodes } from 'http-status-codes';
 import { roleRoute } from './roleRoute.js';
 import { authRoute } from './authRoute.js';
 import { memberAdminRoute } from './member/adminRoute.js';
-import { memberWebRoute } from './member/webRoute.js';
 import { familyAdminRoute } from './family/adminRoute.js';
+import { familyWebRoute } from './family/webRoute.js';
 
 const Router = express.Router();
 
@@ -17,7 +17,7 @@ Router.use('/users', userRoute);
 Router.use('/roles', roleRoute);
 Router.use('/auth', authRoute);
 Router.use('/admin/members', memberAdminRoute);
-Router.use('/web/members', memberWebRoute);
 Router.use('/admin/family', familyAdminRoute);
+Router.use('/web/family', familyWebRoute);
 
 export const APIs_V1 = Router;
