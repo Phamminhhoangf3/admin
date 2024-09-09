@@ -265,6 +265,19 @@ Family.getView = async (id, result) => {
             pipeline: [{ $project: { _destroy: 0 } }]
           }
         },
+        {
+          $addFields: {
+            children: {
+              $map: {
+                input: '$children',
+                as: 'child',
+                in: {
+                  $mergeObjects: ['$$child', { dadId: '$husbandId' }]
+                }
+              }
+            }
+          }
+        },
         { $project: { _destroy: 0, husbandId: 0, wifeId: 0, exWifeId: 0, childrenIds: 0 } }
       ])
       .next();

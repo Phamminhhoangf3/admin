@@ -4,8 +4,7 @@ const { GET_DB } = require('../config/mongodb');
 const {
   MEMBER_COLLECTION_SCHEMA,
   MEMBER_UPDATE_SCHEMA,
-  MEMBER_COLLECTION_NAME,
-  MEMBER_UPDATE_MANY_SCHEMA
+  MEMBER_COLLECTION_NAME
 } = require('../schemas/memberSchema');
 
 const validationBeforeCreate = async data => {
